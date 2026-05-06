@@ -1,4 +1,4 @@
-# collaboratR
+# CollaboratoR
 
 **A package to support collaborative meta-analysis for [MSU
 IBEEM](https://ibeem.msu.edu)**
@@ -34,11 +34,11 @@ Originally, this This R package was part of 3 repositories that support
 the data entry, validation and accumulation of a meta-analysis for a
 research project sponsored by MSU IBEEM
 
-1.  collaboratR: data management code for L0 and L0-\>L1 layer in EDI
+1.  CollaboratoR: data management code for L0 and L0-\>L1 layer in EDI
     framework
 2.  data: version controlled data collection for tracking provenance
     using git, this is the L0 and L1 layers in the EDI framework. the
-    collaboratR package assists with data transfer and validation from
+    CollaboratoR package assists with data transfer and validation from
     Google drive into the data repository.
 3.  analysis: R code for reproducible data analysis , L1-\>L2 layers in
     EDI framework, using data in the data repository.
@@ -70,7 +70,7 @@ drive, which must be set-up properly first.
 
 See the vignette in this package “Google Sheets API setup using Google
 Cloud”, or in this source code see [Google Sheets Vignette
-RMD](https://github.com/IBEEM-MSU/collaboratR/vignettes/google_sheets_api.Rmd)
+RMD](https://github.com/IBEEM-MSU/CollaboratoR/vignettes/google_sheets_api.Rmd)
 
 Once set-up you may have to log-in manually prior to running tests or
 checks, use

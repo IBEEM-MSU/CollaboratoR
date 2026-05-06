@@ -1,0 +1,7 @@
+# v0.9 
+
+Initial version that is designated as a 'release.'  This version is not submitted
+to CRAN as it's primarily a demonstration of what could be done and still has 
+areas that are specific to the meta-analysis work that it was created for.  The
+goal is to create an example and demonstration of how to implement a similar 
+system for your own team. 

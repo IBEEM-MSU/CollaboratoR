@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(collaboratR)
+library(CollaboratoR)
 
-test_check("collaboratR")
+test_check("CollaboratoR")

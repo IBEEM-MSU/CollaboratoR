@@ -19,7 +19,7 @@ features
   to NAs, e.g. can indicate "NA" in numeric cells
 
 - requires a spec sheet that uses names per
-  [`type_converter_fun()`](https://github.com/IBEEM-MSU/collaboratR/reference/type_converter_fun.md)
+  [`type_converter_fun()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/type_converter_fun.md)
 
 ## Usage
 

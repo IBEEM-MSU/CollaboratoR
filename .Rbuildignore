@@ -1,6 +1,6 @@
 ^renv$
 ^renv\.lock$
-^collaboratR\.Rproj$
+^CollaboratoR\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$

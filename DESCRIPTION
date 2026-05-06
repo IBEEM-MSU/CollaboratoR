@@ -1,4 +1,4 @@
-Package: collaboratR
+Package: collaboratoR
 Title: validation and version control for level 0 data using Google Drive
 Version: 0.9
 Authors@R: 
@@ -20,7 +20,7 @@ Authors@R:
 Description: Data management for Community Ecology RULES project of MSU IBEEM, 
   using the EDI data package framework.  Reads data and schema from google drive,
   validates using standard set of rules, and combines into CSV. 
-URL: https://ibeem-msu.github.io/collaboratR, https://github.com/IBEEM-MSU/collaboratR
+URL: https://ibeem-msu.github.io/collaboratoR, https://github.com/IBEEM-MSU/collaboratoR
 License: MIT + file LICENSE
 Suggests: 
     knitr,

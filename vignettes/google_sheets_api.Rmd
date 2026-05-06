@@ -88,5 +88,5 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(collaboratR)
+library(CollaboratoR)
 ```

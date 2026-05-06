@@ -2,7 +2,7 @@
 
 ``` r
 
-library(collaboratR)
+library(CollaboratoR)
 ```
 
 This package enables the use of Google Sheets as a collabrative data and

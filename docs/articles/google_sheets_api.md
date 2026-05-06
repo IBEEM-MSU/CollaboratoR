@@ -13,7 +13,7 @@ describes how that works.
 
 This package relies upon the great work from Posit in the
 `googlesheets4` package, which in turn relies on the Posit-authored
-[gargle](https://github.com/IBEEM-MSU/collaboratR/articles/Bryan%20J,%20Citro%20C,%20Wickham%20H%202023).
+[gargle](https://github.com/IBEEM-MSU/CollaboratoR/articles/Bryan%20J,%20Citro%20C,%20Wickham%20H%202023).
 gargle: Utilities for Working with Google APIs.
 <https://gargle.r-lib.org>.)
 
@@ -134,5 +134,5 @@ googlesheets4::gs4_auth(email='myname@institution.whatever', scopes="drive.reado
 
 ``` r
 
-library(collaboratR)
+library(CollaboratoR)
 ```

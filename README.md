@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# collaboratR
+# CollaboratoR
 
 **A package to support collaborative meta-analysis for [MSU
 IBEEM](https://ibeem.msu.edu)**
@@ -49,11 +49,11 @@ Originally, this This R package was part of 3 repositories that support
 the data entry, validation and accumulation of a meta-analysis for a
 research project sponsored by MSU IBEEM
 
-1.  collaboratR: data management code for L0 and L0-\>L1 layer in EDI
+1.  CollaboratoR: data management code for L0 and L0-\>L1 layer in EDI
     framework
 2.  data: version controlled data collection for tracking provenance
     using git, this is the L0 and L1 layers in the EDI framework. the
-    collaboratR package assists with data transfer and validation from
+    CollaboratoR package assists with data transfer and validation from
     Google drive into the data repository.
 3.  analysis: R code for reproducible data analysis , L1-\>L2 layers in
     EDI framework, using data in the data repository.
