@@ -114,9 +114,9 @@ save_csvs<- function(sheet_data, verbose = FALSE){
   # SAVE
   id_new <- sheet_data$ID_new
   biomass_file_name <- file.path(csv_folder, paste0('biomass_', id_new, '.csv'))
-  write.csv(biomass.df, biomass_file_name, row.names = FALSE)
+  utils::write.csv(biomass.df, biomass_file_name, row.names = FALSE)
   env_file_name <- file.path(csv_folder, paste0('env_', id_new, '.csv'))
-  write.csv(env.df, env_file_name, row.names = FALSE)
+  utils::write.csv(env.df, env_file_name, row.names = FALSE)
   return(c(biomass_file_name, env_file_name))
 
 }
@@ -146,7 +146,7 @@ validate_and_save_one<-function(id, urls.df = NULL, verbose = FALSE){
 validate_all<- function(urls.df=NULL, drive_email =NULL){
   if(!gsheet_auth_setup(drive_email)){
     warning("could not authenticate with google sheets api")
-    return(False)
+    return(FALSE)
   }
 
   # list of URLS from google drive to a data sheet

@@ -9,3 +9,5 @@
 notes.txt
 ^.Renviron
 ^tests$
+^inst/credentials/*$
+^.nojekyll

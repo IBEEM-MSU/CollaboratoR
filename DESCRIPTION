@@ -1,4 +1,4 @@
-Package: collaboratoR
+Package: CollaboratoR
 Title: validation and version control for level 0 data using Google Drive
 Version: 0.9
 Authors@R: 
@@ -29,12 +29,10 @@ Suggests:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Imports: 
     gargle,
     googledrive,
     googlesheets4,
-    httpuv,
     readr,
     validate,
     dplyr
@@ -42,3 +40,4 @@ VignetteBuilder: knitr
 Depends: 
     R (>= 4.1.0)
 LazyData: true
+Config/roxygen2/version: 8.0.0
