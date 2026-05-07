@@ -26,17 +26,17 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/IBEEM-MSU/CollaboratoR/blob/HEAD/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/IBEEM-MSU/collaboratoR/blob/HEAD/DESCRIPTION)
 
 Bills P, Ramesh A, Petri L, Tiwari A, Martinez Blancas A, Kapsar K,
 Zarnetske P (2026). *CollaboratoR: validation and version control for
-level 0 data using Google Drive*. R package version 0.0.0.9100,
-<https://ibeem-msu.github.io/CollaboratoR>.
+level 0 data using Google Drive*. R package version 0.9,
+<https://ibeem-msu.github.io/collaboratoR>.
 
     @Manual{,
       title = {CollaboratoR: validation and version control for level 0 data using Google Drive},
       author = {Patrick S. Bills and Ashwini Ramesh and Laís Petri and Amar Deep Tiwari and Alejandra {Martinez Blancas} and Kelly Kapsar and Phoebe Lehman Zarnetske},
       year = {2026},
-      note = {R package version 0.0.0.9100},
-      url = {https://ibeem-msu.github.io/CollaboratoR},
+      note = {R package version 0.9},
+      url = {https://ibeem-msu.github.io/collaboratoR},
     }
