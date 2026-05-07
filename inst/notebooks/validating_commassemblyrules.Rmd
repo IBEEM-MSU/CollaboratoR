@@ -1,10 +1,6 @@
 ---
 title: "Validating Community Assembly Rules Project Data"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Validating Community Assembly Rules Project Data}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: rmarkdown
 ---
 
 ```{r, include = FALSE}
@@ -14,6 +10,16 @@ knitr::opts_chunk$set(
 )
 ```
 
+# CollaboratoR: Example Validation Session
+
+This is an example workflow for using the CollaboratoR package for validation of data files from the project for which is was originally created.  To run this requires google drive credentials in the .Renviron file or the 
+environment.   
+
+This notebook is just a demonstration and has some specific configuration for that project, such as multi-tab data sheets in google drive.   
+
+For those with limited or low-tier Google workspace accounts, there is a rate limit on reading googlesheets that
+may require several minutes for this R-markdown file to render. 
+
 ```{r setup}
 require(dplyr)
 library(CollaboratoR)
@@ -21,14 +27,19 @@ library(CollaboratoR)
 
 ## Authenticate to gdrive/sheets.  Requires an email account
 
-```{r gdrive setup, echo=TRUE}
+```{r gdrive setup}
 
 ## EDIT AND ADD YOUR EMAIL IF YOU DON'T HAVE AN EMAIL IN .Renviron FILE
 # if you have not setup the .Renvfile, or would like to test a different email 
 # address, set it here.   If none is sent, the auth setup function will look in 
 # the environment (e.g. .Renviron file)
-drive_email <- NULL
-CollaboratoR::gsheet_auth_setup(drive_email = drive_email)
+drive_email <- Sys.getenv('PROJECT_EMAIL')
+authenticated <- CollaboratoR::gsheet_auth_setup(drive_email = drive_email)
+if(!authenticated) {
+  print("EDIT AND ADD YOUR EMAIL IF YOU DON'T HAVE AN EMAIL IN .Renviron FILE")
+  stop()
+} 
+print(paste("Authenticaed with ", drive_email))
 ```
 
 
@@ -51,17 +62,23 @@ Read in the first URL as a test.  There will be warnings if the columns are not 
 ```{r set_example_url, echo=TRUE}
 # get the example from one of the URLS
 
-# Randome sheet
-test_gsheet_url <- sample(urls.df$url, 1)
-# OR set the example sheet manually
-# test_gsheet_url <- 'https://docs.google.com/spreadsheets/d/1Npcre4y4LnzIU_4v_vqJiVyzLtXGZ1lpYGRnXcfi0X8/edit?gid=0#gid=0'
+test_gsheet_url <- Sys.getenv('TEST_URL')
+if(test_gsheet_url == "") {
+  sheet_count <- nrow(urls.df)
+
+  test_url_num <- sample(1:sheet_count, 1)
+  test_gsheet_url <- sample(urls.df$url, test_url_num)
+}
 
 print(paste("We'll use this test sheet:", test_gsheet_url))
 
-
 ```
 
+#### Read in data from shee
 
+This project's data sheets have two tabs in each: one for biomass and one for Env
+
+Read in biomass tab into data frame
 ```{r, read_one_biomass, echo=TRUE}
 # test of basic reading, and validate the column names
 # this will throw warnings if there are invalid column names
@@ -73,13 +90,21 @@ biomass.df <- read_data_sheet(gurl = test_gsheet_url,
 biomass.df
 ```
 
-env sheet
+Read in "env" tab
 
 ```{r, read_one_env, echo=TRUE}
 env.df <- read_data_sheet(gurl = test_gsheet_url, 
                           tab_name = 'env_data', 
                           spec.df = commassembly_rules_env_str)
-head(env.df)
+
+if(typeof(env.df) == 'list' && nrow(env.df) > 0) {
+  print(paste("successfully read env.df from ", test_gsheet_url, "tab = env_data"))
+  head(env.df)
+} else {
+  print(paste("problem reading env.df from ", test_gsheet_url, "tab = env_data"))
+}
+
+
 ```
 
 ## Validation
@@ -90,14 +115,19 @@ Let's try using the validation rules
 
 ```{r, validate biomass from file, echo=TRUE, error=TRUE}
 
-biomass_validation_file <- '../inst/rules/biomass_validation_rules.yaml'
-file.exists(biomass_validation_file)
-validation_summary <- validate::summary(validate_from_file(biomass.df, biomass_validation_file))
-validation_summary
+biomass_validation_file <-  here::here('inst/rules/biomass_validation_rules.yaml')
+if ( file.exists(biomass_validation_file)) {
+  validation_object <- validate_from_file(biomass.df, biomass_validation_file)
+  validation_summary <- validate::summary(validation_object)
+  print(validation_summary)
+
+} else {
+  print("could not find validation rules file")
+}
 
 ```
 
-Validation: Just show the fails
+Validation: Just show the fails, if any
 ```{r, show validation fails}
 if(sum(validation_summary$fails) == 0) {
   print("Validation Passed, return true")
@@ -126,68 +156,21 @@ if("warnings" %in% names(env.df)) {
 ```
 
 ```{r}
-env_validation_file <- '../inst/rules/env_validation_rules.yaml'
-# file.exists(env_validation_file)
-validation_summary <- validate::summary(validate_from_file(env.df, env_validation_file))
-if(sum(validation_summary$fails) == 0) {
-  print("Validation Passed, return true")
+env_validation_file <- here::here('inst/rules/env_validation_rules.yaml')
+
+if(file.exists(env_validation_file)) {
+  validation_object <- validate_from_file(env.df, env_validation_file)
+  validation_summary <- validate::summary(validation_object)
+  if(sum(validation_summary$fails) == 0) {
+    print("Validation Passed, return true")
+  } else {
+    print("Validation fails")
+    fails <- validation_summary[validation_summary$fails > 0,]
+    print(fails)
+  }
 } else {
-  print("Validation fails")
-  fails <- validation_summary[validation_summary$fails > 0,]
-  fails
+  print(paste("could not find validation rules file", env_validation_file))
 }
-
-```
-
-### find missing column error
-
-this is example code to only show validation errors and not to save anything
-
-disabled for now, see loop to  validate below
-
-```{r echo=FALSE}
-# before running this, authenticate. 
-# if you don't have ths PROJECT_EMAIL set in .Renviron, edit the next line
-# drive_email = Sys.getenv('PROJECT_EMAIL')
-# stopifnot(gsheet_auth_setup(drive_email = drive_email))
-# 
-# env_validation_file <- '../inst/rules/env_validation_rules.yaml'
-# googledrive::local_drive_quiet()
-# 
-# for(i in seq(1:nrow(urls.df))) {
-#     data_sheet_url <- as.list(urls.df[i,])
-#     print(paste(data_sheet_url$who, data_sheet_url$id, data_sheet_url$url))
-#     
-#     # this will create list with 'warnings' if there are warnings
-#     
-#     read_data_sheet_save_warnings <- CollaboratoR::errorSaver(read_data_sheet)
-#     env.df <- read_data_sheet_save_warnings(gurl = test_gsheet_url, 
-#                               tab_name = 'env_data', 
-#                               spec.df = commassembly_rules_env_str)
-# 
-#     if("warnings" %in% names(env.df)) { 
-#       print(env.df$warnings)
-#       # get just the data
-#       env.df <- env.df[[1]]
-#     }
-# 
-#     # env.df <- read_data_sheet(data_sheet_url$url, 
-#     #                             tab_name = 'env_data', 
-#     #                             spec.df = commassembly_rules_env_str)
-# 
-#     
-#     if('warnings' %in% names(env.df)){
-#       print(data_sheet_url)
-#       print(env.df)
-#       
-#     # } else {
-#       env_validation_summary <- validate::summary(validate_from_file(env.df, env_validation_file))
-#       if(sum(validation_summary$fails) != 0) {
-#         fails <- dplry::filter(validation_summary, fails > 0)
-#         print(paste(fails$name, "has", fails$fails, "invalid rows"))
-#       }
-#     }
-# }
 
 ```
 
@@ -217,18 +200,6 @@ read_and_report<- function(url, tab_name, spec.df){
   return(data.df)
 }
 
-validation_report<- function(data.df, validation_file){
-    confrontation<- validate_from_file(data.df, validation_file)
-    validation_summary <- validate::summary(confrontation)
-    if(sum(validation_summary$fails) == 0) {
-      return(TRUE)
-    } else {
-      print(validation_summary)
-      #fails <- dplyr::filter(validation_summary , fails > 0)
-      #print(fails)
-      return(FALSE)
-  }
-}
 
 save_csvs<- function(sheet_data){
   # print(paste(sheet_data$id, sheet_data$url))
@@ -285,13 +256,17 @@ test_file_names<- save_csvs(test_gsheet)
 print(test_file_names)
 ```
 
-### Try to read the CSV back in
+### Test of our prcoess
+
+Try to read the CSV back in and show it
 
 
 ```{r}
 test_df <- read_data_csv(test_file_names[1], spec.df = commassembly_rules_biomass_str)
-test_df
+head(test_df)
 ```
+
+if that worked, move on to the next step:
 
 ## Loop that reads all URLS in the url list. 
 
@@ -325,7 +300,12 @@ for(i in seq(1:nrow(urls.df))) {
 
 
 
-### Build a database
+## Post-Validation example: build a database
+
+This reads just the saved CSV from the 'biomass' tab and aggregates
+into a CSV.  This methos requires that all of the CSVs have the same 
+columns, meaning all of the Google sheets read above have the same columns, 
+which they should since the've passed validation. 
 
 ```{r, combine, echo=TRUE}
 # getting the list of CSV file paths is flexible so that some could be 
@@ -334,10 +314,6 @@ for(i in seq(1:nrow(urls.df))) {
 biomass_files <- dir('../L0', pattern = "biomass.*\\.csv", 
                           full.names = TRUE, include.dirs = TRUE)
 biomass.df <- aggregate_csvs(csv_list=biomass_files, spec.df=commassembly_rules_biomass_str)
-
-# some of these are not saving or reading correctly
-#env_files <- dir('../L0', pattern = "env.*\\.csv", full.names = TRUE, include.dirs = TRUE)
-# env.df <- aggregate_csvs(csv_list=env_files, spec.df=commassembly_rules_env_str)
 
 print(paste('biomass rows', nrow(biomass.df))) # , " env rows", nrow(env.df)))
 ```
