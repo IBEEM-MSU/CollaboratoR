@@ -163,6 +163,9 @@ Statistical Software}, year={2021}, volume ={97}, issue = {10}, pages =
   - requires a spec sheet that uses names per
     [`type_converter_fun()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/type_converter_fun.md)
 
+- [`read_data_specification()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/read_data_specification.md)
+  : read a spec sheet of columns descibing data to be validated
+
 - [`read_gcsv()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/read_gcsv.md)
   : download a CSV file from the project google shared drive and read
   into memory
@@ -205,7 +208,10 @@ Statistical Software}, year={2021}, volume ={97}, issue = {10}, pages =
   : validate columns against data definition
 
 - [`validate_from_file()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/validate_from_file.md)
-  : convenience to create validation results from a yaml file
+  : create validation results from a yaml file
+
+- [`validation_report()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/validation_report.md)
+  : create a report of validation results
 
 # Articles
 

@@ -1,6 +1,6 @@
-# convenience to create validation results from a yaml file
+# create validation results from a yaml file
 
-convenience to create validation results from a yaml file
+create validation results from a yaml file
 
 ## Usage
 
@@ -10,13 +10,13 @@ validate_from_file(data_df, file)
 
 ## Arguments
 
+- data_df:
+
+  data frame of data
+
 - file:
 
   yaml formatted file with rules for the validate package
-
-- data_dfe:
-
-  data frame of data
 
 ## Value
 

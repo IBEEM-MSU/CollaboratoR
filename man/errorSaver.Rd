@@ -23,10 +23,16 @@ If there are warnings or errors, returns a list with $warn and $err elements
 this method breaks down if the result
 }
 \examples{
+\dontrun{
 log.errors <- errorSaver(log)
 log.errors("a")
 log.errors(1)
 read_csv_with_warnings <- errorSaver(readr::read_csv)
+# read_google_sheet_with_spec<-function(gurl, has_description_row = FALSE, )
+testfile =  "/Users/billspat/tmp/df.csv"
+row_1 = strsplit(readLines(testfile , 1), ',')[[1]]
+df2 = readr::read_csv(file = "/Users/billspat/tmp/df.csv", col_names = spec.df$col_name, col_types = paste0(substr(spec.df$col_type, 1, 1), collapse = ''))
+}
 }
 \references{
 \url{http://stackoverflow.com/questions/4948361/how-do-i-save-warnings-and-errors-as-output-from-a-function}

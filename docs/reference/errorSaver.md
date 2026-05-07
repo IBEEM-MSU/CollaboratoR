@@ -32,18 +32,14 @@ a wrapped
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 log.errors <- errorSaver(log)
 log.errors("a")
-#> [[1]]
-#> NULL
-#> 
-#> $warnings
-#> NULL
-#> 
-#> $errors
-#> [1] "non-numeric argument to mathematical function"
-#> 
 log.errors(1)
-#> [1] 0
 read_csv_with_warnings <- errorSaver(readr::read_csv)
+# read_google_sheet_with_spec<-function(gurl, has_description_row = FALSE, )
+testfile =  "/Users/billspat/tmp/df.csv"
+row_1 = strsplit(readLines(testfile , 1), ',')[[1]]
+df2 = readr::read_csv(file = "/Users/billspat/tmp/df.csv", col_names = spec.df$col_name, col_types = paste0(substr(spec.df$col_type, 1, 1), collapse = ''))
+} # }
 ```
