@@ -1,12 +1,3 @@
-
-
-
-# read_google_sheet_with_spec<-function(gurl, has_description_row = FALSE, )
-# testfile =  "/Users/billspat/tmp/df.csv"
-# row_1 = strsplit(readLines(testfile , 1), ',')[[1]]
-# df2 = readr::read_csv(file = "/Users/billspat/tmp/df.csv", col_names = spec.df$col_name, col_types = paste0(substr(spec.df$col_type, 1, 1), collapse = ''))
-
-
 #' Function wrapper to capture errors and warnings for storing
 #'
 #' errorSaver wraps functions to capture error and warning outputs that would
@@ -17,16 +8,23 @@
 #' If there are no errors and no warnings, the regular function result is returned
 #' If there are warnings or errors, returns a list with $warn and $err elements
 #' this method breaks down if the result
+#' 
 #' @export
 #' @param fun The function from which we'll capture errors and warnings
 #' @return a wrapped
 #' @references
 #' \url{http://stackoverflow.com/questions/4948361/how-do-i-save-warnings-and-errors-as-output-from-a-function}
 #' @examples
+#' \dontrun{
 #' log.errors <- errorSaver(log)
 #' log.errors("a")
 #' log.errors(1)
 #' read_csv_with_warnings <- errorSaver(readr::read_csv)
+#' # read_google_sheet_with_spec<-function(gurl, has_description_row = FALSE, )
+#' testfile =  "/Users/billspat/tmp/df.csv"
+#' row_1 = strsplit(readLines(testfile , 1), ',')[[1]]
+#' df2 = readr::read_csv(file = "/Users/billspat/tmp/df.csv", col_names = spec.df$col_name, col_types = paste0(substr(spec.df$col_type, 1, 1), collapse = ''))
+#' }
 errorSaver <- function(fun)
   function(...) {
     warn <- err <- NULL
@@ -107,27 +105,6 @@ type_converter_fun<- function(type_code) {
 }
 
 
-type_converter_fun<- function(type_code) {
-  if (type_code == 'character' || type_code == 'c'){
-    return(readr::parse_character())
-    # return(as.character)
-  }
-  if (type_code == 'integer' || type_code == 'i'){
-    return()
-    return(as.integer)
-  }
-  if (type_code == 'factor' || type_code == 'f'){
-    return(as.factor)
-  }
-  if (type_code == 'double' || type_code == 'd' || type_code == 'n' || type_code == 'numeric'){
-    return(as.numeric)
-  }
-  if (type_code == 'Date' || type_code == 'D' ){
-    return(as.Date.flexible)
-  }
-
-  return(as.character)
-}
 #' convert a type name to a readr convert code
 #'
 #' readr uses convert codes - see vignette("readr")
@@ -135,6 +112,7 @@ type_converter_fun<- function(type_code) {
 #' codes used by reader
 #' @param type_code single letter or string of type
 #' @returns character single letter code
+#' @export
 type_code_to_readr_code<- function(type_code) {
   if (type_code == 'character'){
     return('c')
@@ -172,32 +150,3 @@ spec_to_readr_col_types<- function(spec.df){
 }
 
 
-
-#' given a URL and params, read, validate and save a CSV
-#'
-#' filename <- read_and_save(url, sheet_id = 'biomass_data', spec.df = commassembly_rules_biomass_str))
-
-read_validate_and_save<- function(url, tab_name, spec.df, csv_folder = '../L0'){
-
-  dir.create(csv_folder, showWarnings = FALSE)
-
-  tryCatch({
-    data.df <- read_data_sheet(url,
-                               tab_name = tab_name,
-                               spec.df = spec.df)
-
-    }, error=function(e) {
-       print(e)
-       return( NA)
-    }
-  )
-
-  id_new = env.df$ID_new[1]
-  biomass_file_name <- file.path(csv_folder, paste0('biomass_', id_new, '.csv'))
-  utils::write.csv(biomass.df, biomass_file_name, row.names = FALSE)
-  env_file_name <- file.path(csv_folder, paste0('env_', id_new, '.csv'))
-  utils::write.csv(env.df, env_file_name, row.names = FALSE)
-
-  return(c(biomass_file_name, env_file_name))
-
-}

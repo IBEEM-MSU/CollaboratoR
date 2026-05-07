@@ -24,6 +24,7 @@ if (DRIVE_API_ID_FILE == "") {
 
 # Setup Non-interactive Authentication
 # Following gargle's "Non-interactive auth" vignette
+library(testthat)
 library(googledrive)
 library(googlesheets4)
 

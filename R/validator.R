@@ -1,173 +1,149 @@
-## MSU IBEEM : Community Assembly Rules project
-## Validation workflow functions
+# validatR.R functions used to check data columns, data types and run
+# validation checks using validate package
 
-# this R project is constructed as an R package, but this particular script
-# does not have any exported functions like a package would.  This is for
-# 1) it's still under development
-# 2) it's very specific to the data for the Community Assembly Rules project
+require(validate)
+require(readr)
 
-# ultimately this will be written as part of a vignette or sample code that uses
-# the validation rules and column definitions for this project as examples
-
-# to use these functions
-#  0. run devtools::load_all() in the console
-#     to load all the other functions from the project, which also loads the data
-#  1. ensure that you have permissions in GCP and keys in .Renviron
-#    in .Renviron also set the URL for the google sheet with the list of sheet
-#    urls to validate
-#  2. ensure you have the most up-to-date versions of the data template
-#    run the script data-raw/commrules_data_prep.R to generate new data/*.rda
-#    to get those, either pull this repository, or update from google drive
-#    file using the following on the console
-#    source("data-raw/commrules_data_prep.R")
-#     create_comm_assembly_rules_data()
-#  3. source this script file
-#    that will automatically run the google authentication setup, so you
-#    may have to make a choice of using an existing auth, or logging in with
-#    via web
-#  4. run the function validate_all() from the R console which reads all,
-#     validation_problems <- capture.output(validate_all())
-#     There will be many timeout errors like Request failed [429]. Retry 1 happens in 60.1 seconds ...
-#     as google only allows a small number of reads per minute unless on the
-#     enterprise plan.  These are normal and the script will finish anyway, just
-#     slowly
-
-require(dplyr)
-gdrive_setup()
-
-### GLOBALS
-csv_folder = '../L0'
-dir.create(csv_folder, showWarnings = FALSE)
-biomass_validation_file <- 'inst/rules/biomass_validation_rules.yaml'
-env_validation_file <- 'inst/rules/env_validation_rules.yaml'
-data(commassembly_rules_biomass_str)
-data(commassembly_rules_env_str)
-
-
-# sheet_data is one row of the URLS data frame, as a list, url is ..$url
-read_and_report<- function(url, tab_name, spec.df, id=NA){
-  read_data_sheet_save_warnings <- CollaboratoR::errorSaver(read_data_sheet)
-  data.df <- read_data_sheet_save_warnings(gurl = url,
-                                           tab_name,
-                                           spec.df)
-
-  if("warnings" %in% names(data.df)) {
-    print(data.df$warnings)
-    read_error_message <- paste("reading warnings ", url, " tab_name:", tab_name )
-    if (! is.na(id)) {
-      read_error_message <- paste(id, read_error_message)
-    }
-    print(read_error_message)
-
-    # get just the data so what's left can be validated
-    data.df <- data.df[[1]]
-  }
-
-  return(data.df)
+#' @export
+type_name_to_fn <- function(type_str) {
+  if(type_str == 'character') return(readr::col_character)
+  if(type_str == 'factor') return(readr::col_factor)
+  if(type_str == 'double') return(readr::col_double)
+  if(type_str == 'integer') return(readr::col_integer)
+  return(NA)
 }
 
 
+#' read a spec sheet of columns descibing data to be validated
+#' 
+#' @param csv_file a csv with column col_name and col_type
+#' @returns data frame that meets criteria
+#' @export
+read_data_specification<- function(csv_file){
+  spec_df <- readr::read_csv(csv_file, show_col_types = FALSE)
+  stopifnot("col_name" %in% names(spec_df))
+  return(spec_df)
+}
+
+
+#' @export
+data_specification_column_spec <- function(spec_df) {
+  paste0(substr(spec.df$col_type, 1, 1), collapse = '')
+}
+
+
+#' validate columns against data definition
+#'
+#' @param data_df data frame following data definition
+#' @param spec_df data frame of table specification
+#' @export
+validate_data_columns<- function(data_df, spec_df){
+
+  stopifnot("col_name" %in% names(spec_df))
+  return(  identical(sort(spec_df$col_name), sort(names(data_df))) )
+
+}
+
+
+#' validate data df
+#'
+#' use the validate package to check a file against a set of rules
+#' @param data_df dataframe of biomass data
+#' @param spec_df data frame of table specification
+#' @param validation_rules file with validation rules in it.
+#' @export
+validate_data<- function(data_df, spec_df, validation_rules ){
+
+  if(!validate_data_columns(data_df, spec_df)){
+    warning("column names don't match specification")
+    #TODO display columns that don't match
+  }
+
+  validation_results <- validate::confront(data_df, validation_rules)
+  validate::summary(validation_results)
+
+  return(validation_results)
+
+}
+
+
+#' create validation results from a yaml file
+#' 
+#' @param data_df data frame of data
+#' @param file yaml formatted file with rules for the validate package
+#' @returns the outupt from confront function
+#' @export
+validate_from_file <- function(data_df, file){
+  validation_rules <- validate::validator(.file= file)
+  validation_results <- validate::confront(data_df, validation_rules)
+
+  validate::summary(validation_results)
+  return(validation_results)
+
+}
+
+#' given a URL and params, read, validate and save a CSV
+#' 
+#' in the schemed used by this system, there is an ID column which is the ID 
+#' value of the unit of research (usually a publication, but could be a project, a system)
+#' which is repeated for each row in order to positively ID the row of data
+#' to that unit. The sheet may be also named that but the sheet name is not used
+#' for this ID value.  
+#' 
+#' @param url string url pointing to a google sheet
+#' @param tab_name name of tab in that googlesheet to read
+#' @param spec.df  previously read in specification 
+#' @param csv_foler path to folder to save the resulting CSV
+#' @example 
+#' /dontrun {
+#' url <- 'https://docs.google.com/spreadsheets/d/some_random_sheet_name
+#' filename <- read_and_save(url, tab_name = 'biomass_data', spec.df = commassembly_rules_biomass_str), id_column = "ID_new")
+#' }
+#' @export
+read_validate_and_save<- function(url, tab_name, spec.df, csv_folder = '../L0', id_column = 'id'){
+
+  dir.create(csv_folder, showWarnings = FALSE)
+
+  tryCatch({
+    data.df <- read_data_sheet(url,
+                               tab_name = tab_name,
+                               spec.df = spec.df)
+
+    }, error=function(e) {
+       print(e)
+       return( NA)
+    }
+  )
+
+  if(!validate_data_columns(data.df, spec.df)){
+
+  }
+
+  
+  id_name = data.df[[id_column]][1]
+  csv_file_name <- file.path(csv_folder, paste0(tab_name, '_', id_new, '.csv'))
+  # validate here
+  
+  utils::write.csv(data.df, csv_file_name, row.names = FALSE)
+  return(csv_file_name)
+
+}
+
+
+#' create a report of validation results
+#' 
+#' @param data.df data frame to validate
+#' @param validation_file validations rules
+#' @returns string of validation results, empty string if no errors
 validation_report<- function(data.df, validation_file){
   confrontation<- validate_from_file(data.df, validation_file)
   validation_summary <- validate::summary(confrontation)
   if(sum(validation_summary$fails) == 0) {
-    return(TRUE)
+    return("")
   } else {
     # print(validation_summary)
     fails <- dplyr::filter(validation_summary , fails > 0)
-    print(fails)
-    return(FALSE)
-  }
-}
-
-
-save_csvs<- function(sheet_data, verbose = FALSE){
-
-  if(verbose == TRUE) print(paste(sheet_data$id, sheet_data$url))
-
-  url <- sheet_data$url
-
-  #### ENV
-  env.df <- read_and_report(url,
-                            tab_name = 'env_data',
-                            spec.df = commassembly_rules_env_str)
-  if(!exists('env.df')) {
-    print(paste("could not read sheet: "))
-    return (c(NA, NA))
-  }
-  env_valid <- validation_report(env.df, env_validation_file)
-
-  ## BIOMASS READ
-  biomass.df <- read_and_report(url,
-                                tab_name = 'biomass_data',
-                                spec.df = commassembly_rules_biomass_str)
-  if(!exists('biomass.df')) {
-    print(paste("could not read sheet "))
-    return (c(NA, NA))
-  }
-  # BIOMASS VALIDATION
-  biomass_valid <- validation_report(biomass.df, biomass_validation_file)
-
-  if(! (biomass_valid && env_valid)) {
-    print(paste(sheet_data$id, sheet_data$url, " validated: biomass=", biomass_valid, " env=", env_valid ))
-  }
-  # SAVE
-  id_new <- sheet_data$ID_new
-  biomass_file_name <- file.path(csv_folder, paste0('biomass_', id_new, '.csv'))
-  utils::write.csv(biomass.df, biomass_file_name, row.names = FALSE)
-  env_file_name <- file.path(csv_folder, paste0('env_', id_new, '.csv'))
-  utils::write.csv(env.df, env_file_name, row.names = FALSE)
-  return(c(biomass_file_name, env_file_name))
-
-}
-
-validate_and_save_one<-function(id, urls.df = NULL, verbose = FALSE){
-  if(is.null(urls.df)){
-    doc_with_list_url <- Sys.getenv('TEST_ID_LIST_URL')
-    id_column = 'ID_new'
-    urls.df <- read_url_list(gurl = doc_with_list_url, id_column = "ID_new", url_column='url')
-  }
-
-
-  study_info <- as.list(urls.df[urls.df$id == id,])
-  if(verbose ==TRUE) print(paste(study_info$id, study_info$url))
-
-  tryCatch({
-    file_names<- save_csvs(study_info)
-    return(file_names)
-  }, error=function(e) print(e))
-
-}
-
-#' read the list of urls, read, confirm column format, validate and
-#' when using in development mode, make sure do run `devtools::load_all()`
-#' to get all the CollaboratoR functions loaded
-#' save to CSV
-validate_all<- function(urls.df=NULL, drive_email =NULL){
-  if(!gsheet_auth_setup(drive_email)){
-    warning("could not authenticate with google sheets api")
-    return(FALSE)
-  }
-
-  # list of URLS from google drive to a data sheet
-  if(is.null(urls.df) || is.na(urls.df)){
-    doc_with_list_url <- Sys.getenv('TEST_ID_LIST_URL')
-    id_column = 'ID_new'
-    urls.df <- read_url_list(gurl = doc_with_list_url, id_column = "ID_new", url_column='url')
-    message(paste("URLs read from ", doc_with_list_url))
-  }
-
-
-
-  for(i in seq(1:nrow(urls.df))) {
-    study_id = unlist(urls.df$id)[i]
-    study_info = unlist(urls.df[i,])
-
-    file_names <- validate_and_save_one(id = study_id, urls.df)
-    if(NA %in% file_names) {
-      print(paste("errors in id", urls.df$id[i]))
-      print("---------------")
-    }
+    return(fails)
   }
 }
 
