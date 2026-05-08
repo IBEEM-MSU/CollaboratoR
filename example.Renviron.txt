@@ -1,0 +1,23 @@
+# .Renviron for project configuration.  No spaces allowed around x='y'
+
+# save this example file with the name .Renviron 
+### Google Cloud Workspace API settings for private workspaces
+PROJECT_EMAIL='your email here'  # email used to log-in to google sheets
+PROJECT_API_KEY='AIzaSyDzkJvGiW6U0RsjWh9fFqxxlucFCJIeOyc'
+DRIVE_API_ID_NAME='my_api_resource'
+
+### Google Workspace Drive names and locations
+
+# name of the shared drive create in Google Workspace that team members have access to
+DRIVE_API_ID_FILE='path/to/gcp/credentials.json'
+
+#name of API id created inside GCP
+PROJECT_SHARE_DRIVE='mysharedrive'
+
+# path inside the shared drive for main L0 data sheets, fo
+PROJECT_SHARE_DRIVE_PATH=''
+
+### URIs for Google Sheets or CSV files for testing (URLs will look like examples)
+TEST_URL='https://docs.google.com/spreadsheets/d/uniqueIDhere'
+TEST_ID_LIST_URL='https://docs.google.com/spreadsheets/d/sheet-id-value-here'
+TEST_TEMPLATE_URL='https://docs.google.com/spreadsheets/d/sheet-id-value-here'

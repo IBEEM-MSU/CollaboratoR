@@ -3,8 +3,12 @@
 
 # CollaboratoR
 
-**A package to support collaborative meta-analysis for [MSU
-IBEEM](https://ibeem.msu.edu)**
+**A Workflow and R package to support collaborative data synthesis
+research**
+
+\*Originally created to support meta-analysis for [MSU
+IBEEM](https://ibeem.msu.edu) and the
+[AvianMetaNetwork](https://github.com/AvianMetaNetwork/AvianMetaNetwork)\*\*
 
 ### Authors:
 
@@ -31,23 +35,28 @@ Lifecycle](https://img.shields.io/osslifecycle/Netflix/osstracker.svg)]()
 
 ### Motivation
 
-Performing a Meta-analysis requires collating and harmonizing data
-extracted from many different sources but most frequently scientific
-publications.  
-Collaborative meta-analysis requires a group of scientists to
+Performing research data synthesis, such as a meta-analysis, requires
+collating and harmonizing data extracted from many different sources but
+most frequently scientific publications.  
+Collaborative research data synthesis requires a group of scientists to
 collectively develop and agree on their goals, type of data extracted,
 format of the those data, and to do so extremely consistently across
-papers. This package helps to support that efficiently by the
-easy-to-use Google Sheets for data definition and data entry. The
-workflow in this project can read directly from Google sheets into CSVs
-and validate the structure of a google sheet as well as the data using
-the Validate package.
+papers. This package helps to support that efficiently by providing a
+workflow using the common CSV format for data definition and data entry,
+with support for collaborative editing of CSVs with the user-friendy
+Google Sheets.  
+The workflow in this project can read directly from Google sheets into
+CSVs and validate the structure of a google sheet as well as the data
+using the Validate package.
 
 <!-- insert description of the EDI data transform framework here -->
 
-Originally, this This R package was part of 3 repositories that support
-the data entry, validation and accumulation of a meta-analysis for a
-research project sponsored by MSU IBEEM
+This R package was part of workflow involving a collection of git
+repositories organized based on the [thematic
+standardization](https://edirepository.org/resources/thematic-standardization)
+designed by the [Environmental Data Initiative
+(EDI)](https://edirepository.org/) to support the [reseach
+lifecycle](https://edirepository.org/resources/creating-metadata-during-the-research-lifecycle).
 
 1.  CollaboratoR: data management code for L0 and L0-\>L1 layer in EDI
     framework
@@ -58,6 +67,24 @@ research project sponsored by MSU IBEEM
 3.  analysis: R code for reproducible data analysis , L1-\>L2 layers in
     EDI framework, using data in the data repository.
 
+## Components
+
+- (optionally) Google Sheets to entry of data and meta-data
+  - other systems could be used with manual export of CSVs, this package
+    has capability of automatically pulling from Google Sheets
+- CSV tabular files for meta-data and data
+  - the Google sheets adapter converts to CSV
+- R [Readr](https://readr.tidyverse.org/) package for data column name
+  and data type validation
+- R [Validate package](https://github.com/data-cleaning/validate) for
+  data content validation
+- git to track changes to data and meta-data via CSV text file
+- (optionally) Github to share results via the web
+  - other git services could be used, such as
+    [Gitlab](https://gitlab.com)
+  - on premise git servers could be use, such as our institution
+    provides ( <https://gitlab.msu.edu> )
+
 ## Installation - Package
 
 - clone this repository into a [new Rstudio
@@ -66,50 +93,44 @@ research project sponsored by MSU IBEEM
 
 - install required packages: This package uses
   [renv](https://rstudio.github.io/renv/) to manage the packages you
-  need to install, which creates an `renv.lock` file for you. 1. install
-  the renv package: this can go into your R environment used for all
-  packages.
+  need to install, which creates an `renv.lock` file for you.
 
+  1.  install the renv package: this can go into your R environment used
+      for all packages.  
   2.  in R run `renv::restore()` or if that complains about R versions
 
-*additional packages are required to build the package and this website,
-source the script* `R/install_dev_packages.R`
+- Use of Google Workspace “Sheets” services for entering tabular data to
+  be read-in by this application requires additional setup (see below)
 
-### Installation/Testing
+## Installation - Google Workspace
 
-Google drive in this package is set to interaction. To run any building,
-installing or checking in R, you must first manually connect to google
-drive, which must be set-up properly first.
-
+It’s possible to use this workflow by editing CSV version of the tabular
+data. However,  
+many of the instructions, functions and tests are designed to work with
+Google Drive as that was our preferred way to collaborative edit tabular
+data.  
 See the vignette in this package “Google Sheets API setup using Google
 Cloud”, or in this source code see [Google Sheets Vignette
 RMD](vignettes/google_sheets_api.Rmd)
 
 Once set-up you may have to log-in manually prior to running tests or
-checks, use
+checks, use the g-drive setup functions.
 
-``` r
-source("R/gdrive.R")
-
-## Data Google Drive Project Setup
-
-See the Vignette ["Google Sheets API setup using Google Cloud"](vignettes/google_sheets_api.Rmd) 
-for details about setting up google sheets connection with R, which requires
-a google cloud project in your institution
-
-Note that for safety, this package only reads from google drive and it never
-writes to google drive.  Therefore it only requests 'read-only' access.
+Note that for safety, this package only reads from google drive and it
+never writes to google drive. Therefore it only requests ‘read-only’
+access.
 
 ## Usage
 
-When reading in data sheets, you provide a URL for a datasheet that exists in any folder that you have access to.   The system will attempt to log you into to google drive and requests your permission for this code to access files on your behalf.   
+When reading in data sheets, you provide a URL for a datasheet that
+exists in any folder that you have access to. The system will attempt to
+log you into to google drive and requests your permission for this code
+to access files on your behalf.
 
-```R
+``` r
 gurl<- 'https://docs.google.com/spreadsheets/d/1w6sYozjybyd53eeiTdigrRTonteQW2KXUNZNmEhQyM8/edit?gid=0#gid=0'
 study_data<- read_commrules_sheet(gurl)
 ```
-
-### 
 
 ## References
 
