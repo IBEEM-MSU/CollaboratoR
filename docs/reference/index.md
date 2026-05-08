@@ -31,7 +31,7 @@
   : get a google drive file object given path and share drive
 
 - [`gfile_modified_time()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/gfile_modified_time.md)
-  : WIP get time stamp for a particular gfile
+  : get time stamp for a particular gfile
 
 - [`gsheet_auth_setup()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/gsheet_auth_setup.md)
   : setup authentication for reading google sheet
@@ -72,7 +72,7 @@
   : given a URL and params, read, validate and save a CSV
 
 - [`remove_comment_line()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/remove_comment_line.md)
-  : remove line 2 from a csv file, used by data-entry for column
+  : strip row 2 from a csv file, used by data-entry for column
   directions/description.
 
 - [`spec_to_readr_col_types()`](https://github.com/IBEEM-MSU/CollaboratoR/reference/spec_to_readr_col_types.md)

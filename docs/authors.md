@@ -25,9 +25,6 @@
 
 ## Citation
 
-Source:
-[`DESCRIPTION`](https://github.com/IBEEM-MSU/collaboratoR/blob/HEAD/DESCRIPTION)
-
 Bills P, Ramesh A, Petri L, Tiwari A, Martinez Blancas A, Kapsar K,
 Zarnetske P (2026). *CollaboratoR: validation and version control for
 level 0 data using Google Drive*. R package version 0.1,

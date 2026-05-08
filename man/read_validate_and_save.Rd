@@ -28,3 +28,10 @@ which is repeated for each row in order to positively ID the row of data
 to that unit. The sheet may be also named that but the sheet name is not used
 for this ID value.
 }
+\examples{
+\dontrun{
+  url <- 'https://docs.google.com/spreadsheets/d/some_random_sheet_name'
+  filename <- read_and_save(url, tab_name = 'biomass_data', spec.df = commassembly_rules_biomass_str), id_column = "ID_new")
+}
+
+}

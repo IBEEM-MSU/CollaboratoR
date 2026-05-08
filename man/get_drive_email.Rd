@@ -6,6 +6,12 @@
 \usage{
 get_drive_email(drive_email = NULL)
 }
+\arguments{
+\item{drive_email}{optional str, email address, if not provided will use envronment}
+}
+\value{
+string, the email to use, either what was sent or from the config
+}
 \description{
-simple convenience method for replacing an empty drive, called by drive_setup
+convenience method for replacing an empty drive, called by drive_setup
 }

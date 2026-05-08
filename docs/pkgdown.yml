@@ -2,9 +2,10 @@ pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
+  collaborator_workflow: collaborator_workflow.html
   google_sheets_api: google_sheets_api.html
-  process_overview: process_overview.html
-last_built: 2026-05-07T03:06Z
+  project_configuration: project_configuration.html
+last_built: 2026-05-08T15:04Z
 urls:
   reference: https://github.com/IBEEM-MSU/CollaboratoR/reference
   article: https://github.com/IBEEM-MSU/CollaboratoR/articles

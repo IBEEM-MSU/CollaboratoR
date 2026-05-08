@@ -2,7 +2,7 @@
 % Please edit documentation in R/gdrive.R
 \name{remove_comment_line}
 \alias{remove_comment_line}
-\title{remove line 2 from a csv file, used by data-entry for column directions/description.}
+\title{strip row 2 from a csv file, used by data-entry for column directions/description.}
 \usage{
 remove_comment_line(local_file_path, line_numbers = 2, new_file_path = NULL)
 }

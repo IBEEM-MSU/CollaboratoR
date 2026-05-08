@@ -2,7 +2,7 @@
 % Please edit documentation in R/gdrive.R
 \name{gfile_modified_time}
 \alias{gfile_modified_time}
-\title{WIP get time stamp for a particular gfile}
+\title{get time stamp for a particular gfile}
 \usage{
 gfile_modified_time(gfile)
 }
@@ -13,5 +13,5 @@ gfile_modified_time(gfile)
 timestamp value
 }
 \description{
-WIP get time stamp for a particular gfile
+get time stamp for a particular gfile
 }

@@ -1,4 +1,4 @@
-# remove line 2 from a csv file, used by data-entry for column directions/description.
+# strip row 2 from a csv file, used by data-entry for column directions/description.
 
 this will read all lines of a test file (which can take a long
 time/memory for a long file), remove some of the lines by number and

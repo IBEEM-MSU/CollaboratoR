@@ -1,0 +1,51 @@
+# Project Configuration
+
+``` r
+
+library(CollaboratoR)
+```
+
+As described in the Vignette describing the [Google Workspace
+API](https://github.com/IBEEM-MSU/CollaboratoR/articles/google_sheets_api.md),
+this package needs to find a handful of api keys and credentials files.
+In addition, this pacakge will look for some of the base files for it’s
+workflow.
+
+To save those values to be re-used quickly, rather than put them into
+your code directly, R has a way to inject those values in to the OS
+environment, using the `.Renviron` file.
+
+See [Dr. Jenny Bryan’s chapter on this file and R start
+system](https://rstats.wtf/r-startup.html#renviron) for a description of
+this file.
+
+Here is an example of values to go into the file. Copy the section below
+into a new file and save as `.Renviron`
+
+Do not put any spaces on either side of the `=` when assigning values.
+For example use `x="x"` syntax. This is not an **R** script file, but an
+operating system file read by the R system when it starts up.
+
+    # .Renviron for project configuration. 
+
+    # save this example file with the name .Renviron 
+    ### Google Cloud Workspace API settings for private workspaces
+    PROJECT_EMAIL='your email here'  # email used to log-in to google sheets
+    PROJECT_API_KEY='AIzaSyDzkJvGiW6U0RsjWh9fFqxxlucFCJIeOyc'
+    DRIVE_API_ID_NAME='my_api_resource'
+
+    ### Google Workspace Drive names and locations
+
+    # name of the shared drive create in Google Workspace that team members have access to
+    DRIVE_API_ID_FILE='path/to/gcp/credentials.json'
+
+    #name of API id created inside GCP
+    PROJECT_SHARE_DRIVE='mysharedrive'
+
+    # path inside the shared drive for main L0 data sheets, fo
+    PROJECT_SHARE_DRIVE_PATH=''
+
+    ### URIs for Google Sheets or CSV files for testing (URLs will look like examples)
+    TEST_URL='https://docs.google.com/spreadsheets/d/uniqueIDhere'
+    TEST_ID_LIST_URL='https://docs.google.com/spreadsheets/d/sheet-id-value-here'
+    TEST_TEMPLATE_URL='https://docs.google.com/spreadsheets/d/sheet-id-value-here'

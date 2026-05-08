@@ -8,7 +8,7 @@
 # collaborators : see DESCRIPTION of this package
 #
 #
-#
+# for details, see the 
 # these functions require the following packages to be installed
 # install.packages( c( "googlesheets4", "googledrive")), which are 'suggested' for this package
 #
@@ -17,6 +17,7 @@
 # To Use: then you must "require(googledrive)" which asks you to log-in
 # to prevent that from happening when this sheet is sourced, it's wrapped into a function
 # that gets called prior to running other functions
+
 
 #' check google cloud api key configuration
 #'
@@ -36,7 +37,10 @@ get_api_key<-function(){
 
 #' pull drive email from environment
 #'
-#' simple convenience method for replacing an empty drive, called by drive_setup
+#' convenience method for replacing an empty drive, called by drive_setup
+#' @param drive_email optional str, email address, if not provided will use envronment
+#' @return string, the email to use, either what was sent or from the config
+#' @export
 get_drive_email <- function(drive_email = NULL){
   if( is.null(drive_email)){
     drive_email <- if(!is.null(drive_email)) drive_email else Sys.getenv('PROJECT_EMAIL')
@@ -47,7 +51,7 @@ get_drive_email <- function(drive_email = NULL){
 
   }
 
-  return( drive_email)
+  return(drive_email)
 }
 
 #' get a google drive 'client' for authentication from env file
@@ -353,7 +357,7 @@ read_data_sheet<- function(gurl, tab_name, spec.df, rows_to_skip = 1, use_readr=
 }
 
 
-#' WIP get time stamp for a particular gfile
+#' get time stamp for a particular gfile
 #'
 #' @param gfile a file object from google drive
 #' @return timestamp value
@@ -364,7 +368,7 @@ gfile_modified_time<-function(gfile){
 }
 
 
-#' remove line 2 from a csv file, used by data-entry for column directions/description.
+#' strip row 2 from a csv file, used by data-entry for column directions/description.
 #'
 #' this will read all lines of a test file (which can take a long time/memory for a long file),
 #' remove some of the lines by number and write those to disk.   If no new_file_path param

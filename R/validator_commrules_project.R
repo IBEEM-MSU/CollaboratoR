@@ -1,9 +1,8 @@
-## MSU IBEEM : Community Assembly Rules project
-## Validation workflow functions
+# MSU IBEEM : Community Assembly Rules project validation workflow functions
 
 # this R project is constructed as an R package, but this particular script
-# does not have any exported functions like a package would as 
-# it's very specific to the data for the Community Assembly Rules project
+# does not have any exported functions as it's very specific to the
+# Community Assembly Rules project
 
 # ultimately this will be written as part of a vignette or sample code that uses
 # the validation rules and column definitions for this project as examples

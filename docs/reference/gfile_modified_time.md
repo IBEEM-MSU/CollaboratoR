@@ -1,6 +1,6 @@
-# WIP get time stamp for a particular gfile
+# get time stamp for a particular gfile
 
-WIP get time stamp for a particular gfile
+get time stamp for a particular gfile
 
 ## Usage
 
