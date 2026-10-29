@@ -37,8 +37,9 @@ data using git.
 
 ### Setup/Configuration
 
-- Install using instructions in the project’s
-  [README](https://github.com/IBEEM-MSU/CollaboratoR/README.md)
+- Install this package from github using
+  [renv](https://rstudio.github.io/renv/articles/renv.html) as
+  `renv::install('IBEEM-MSU/CollaboratoR')`
 - Information on how to set-up google workspace in the vignette for
   [Google Sheets
   API](https://github.com/IBEEM-MSU/CollaboratoR/articles/google_sheets_api.md)
@@ -107,16 +108,6 @@ the protocol. This table must have columns as follows:
 | col_description | human reable description based on your data collection protocol |
 | col_type | name of the datatype, see datatype list below |
 | example | human readable example for guidance |
-
-    col_name,col_description,col_type,example
-    id,"id formed from species group and sample location", character,"SetosaMBG"
-    Sepal.L., "Sepal length (mm)", double,5.1
-    Sepal.W., "Sepal width (mm)", double,3.5
-    Petal.L., "Petal length (mm)", double,1.4
-    Petal.W., "Petal width (mm)", double,0.2
-    group_id, "grouping variable", factor, "SetosaMBG"
-    whos, "collector of measurements", character, "ESA"
-    site, "name of the site where the data was collected", character, "Main Site"
 
 - create validation rules (YAML format)
 - data lists such as species lists in CSV or

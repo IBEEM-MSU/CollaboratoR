@@ -176,7 +176,9 @@ In your R project,
   - category columns are checked against lists (i.e. species lists)
   - data values against rules (from YAML file)
   - report errors printed for user
+
 ## save to git
+
   - those sheets that passed validation are committed to git
 
 

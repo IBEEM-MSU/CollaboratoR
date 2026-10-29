@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CollaboratoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@
 </h2>
 <p>This walks through an example of a collection of example Google
 Sheets needed for collaborative data entry, how to configure the
-software (the pieces of infromation you need), and how to automatically
+software (the pieces of infoomation you need), and how to automatically
 download and validate the data.</p>
 </div>
 <div class="section level2">
@@ -86,11 +86,12 @@ set of measurments of flower sepals and petals collected by Edgar
 Anderson on the Gaspé Peninsula in Quebec (Anderson 1936).</p>
 <p>As of this writing, there is a public folder in Google Docs/Workspace
 with these files</p>
-<p>If this is no longer available (nothing is forever!), in the
-<code>raw_data</code> folder of this repository](<a href="https://github.com/IBEEM-MSU/CollaboratoR" class="uri">https://github.com/IBEEM-MSU/CollaboratoR</a>) is a zip file
-containing XLSX formatted versions of these sheets that you may upload
-to your own Google Drive shared folder (full instructions for recreating
-our examle data set in Google drive is TBD)</p>
+<p>If this is no longer availableon Google (nothing is forever!), in
+our</p>
+<p><a href="https://github.com/IBEEM-MSU/CollaboratoR_example">example
+data repository</a>, as a zip file containing XLSX formatted versions of
+these sheets that you may upload to your own Google Drive shared
+folder.</p>
 <p>While this data set is small, they are split by species in the sheets
 to simulate collaborative data.</p>
 </div>
@@ -117,56 +118,56 @@ sheets in the table below:</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>data entry protocol</td>
+<td><strong>data entry protocol</strong></td>
 <td>(distinct from the data collection protocol, this is a detailed
 description how <br>data extract from field data or for a meta analysis,
 not specific to this package</td>
-<td>Iris data entry protocol</td>
+<td><strong>Iris data entry protocol</strong></td>
 <td>ficitious protocol for how measurements may be collaboratively
 entered for validation</td>
 </tr>
 <tr class="even">
-<td>data specification</td>
+<td><strong>data specification</strong></td>
 <td>list of variables included in data entry sheets with data types,
 i.e. the ‘data dictionary.’ All variables here should be represented
 <br>in the data entry template</td>
-<td>measurements_spec</td>
+<td><strong>measurements_spec</strong></td>
 <td>List of Sepal and petal measurements with grouping and entry
 information</td>
 </tr>
 <tr class="odd">
-<td>data sheet template</td>
+<td><strong>data sheet template</strong></td>
 <td>this is not required but helpful. a blank spreadsheet with columns
 as defined in the<br> data specification.</td>
-<td>iris_template</td>
+<td><strong>iris_template </strong></td>
 <td>example blank data sheet, to be copied and saved for per-species
 data entry</td>
 </tr>
 <tr class="even">
-<td>data sheets</td>
+<td><strong>data sheets</strong></td>
 <td>copies of template filled with data, each row identifies who entered
 these data, and data/tasks is split on a logical grouping depending on
 your protocol/process.</td>
-<td>iris_setosa, iris_versicolor, iris_virginica</td>
+<td><strong>iris_setosa, iris_versicolor, iris_virginica</strong></td>
 <td>per-species sepal and petal measurment data for this example</td>
 </tr>
 <tr class="odd">
-<td>data sheet list</td>
+<td><strong>data sheet list</strong></td>
 <td>a table of all data sheets ready for validation with URLs for
 CollaboratoR to read from</td>
-<td>id_urls</td>
+<td><strong>id_urls</strong></td>
 <td>listing of data sheets above with Google Sheets URLs<br>
 </td>
 </tr>
 <tr class="even">
-<td>group lookup values</td>
+<td><strong>group lookup values</strong></td>
 <td>columns holding identifying variables used groupming must be entered
 correctly. A list of the acceptable values for that grouping variable is
 useful for both the data entry template and for the validation step. An
 example categorical grouping column may be “species” (as in our
 example). CollaboratoR currently can only provide this function for one
 column.</td>
-<td>species</td>
+<td><strong>species </strong></td>
 <td>a single column list of species included in this example project,
 used for both validation steps, and for limiting data in the data entry
 template spreadsheet</td>
@@ -175,12 +176,12 @@ template spreadsheet</td>
 </table>
 </div>
 <div class="section level2">
-<h2 id="saved">saved…<a class="anchor" aria-label="anchor" href="#saved"></a>
+<h2 id="example-sheets-setup">Example Sheets setup<a class="anchor" aria-label="anchor" href="#example-sheets-setup"></a>
 </h2>
 <p>The folder for this example project has the following sheets in
 it</p>
 <ul>
-<li>Iris data entry protocol: ficitious protocol for how measurements
+<li>Iris data entry protocol: fictitious protocol for how measurements
 may be collaboratively entered for validation.</li>
 <li>id_urls : table of data sheets and their associated google urls</li>
 <li>iris_template : example blank data sheet to use for new entries</li>
@@ -194,111 +195,25 @@ data entry template spreadsheet</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="saved-process-getting-started">saved… Process: Getting Started<a class="anchor" aria-label="anchor" href="#saved-process-getting-started"></a>
-</h2>
-<p>After designing the goals and basic process/protocol for your study,
-to use spreadshseets to collect data and use this package, one should
-include the following:</p>
-<ul>
-<li>data entry protocol (distinct from the data collection
-protocol)</li>
-<li>data specification: list of variables included in data entry
-sheets</li>
-<li>template data sheet, a blank spreadsheet with columns as defined in
-the data specification</li>
-<li>One or more data sheets, creatd from the template</li>
-<li>a table of all data sheets ready for validation</li>
-</ul>
-<p>The example sheets above ## Process: CollaboratoR Set</p>
-<ul>
-<li>installing this package and it’s dependencies (Readr, etc)</li>
-</ul>
-<div class="section level3">
-<h3 id="setupconfiguration">Setup/Configuration<a class="anchor" aria-label="anchor" href="#setupconfiguration"></a>
-</h3>
-<ul>
-<li>Install using instructions in the project’s <a href="../README.html">README</a>
-</li>
-<li>Information on how to set-up google workspace in the vignette for <a href="google_sheets_api.html">Google Sheets API</a> setup.<br>
-</li>
-<li>This package relies on <a href="project_configuration.html">configuration values in the
-<code>.Renviron</code> file</a>
-</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="workflow-summary">Workflow Summary<a class="anchor" aria-label="anchor" href="#workflow-summary"></a>
-</h3>
-<ol style="list-style-type: decimal">
-<li>Write your data entry protocol (outside of this system but crucial
-for organization)</li>
-<li>Setup Git repositories to hold data as it flows through</li>
-<li>Create metadata and configuration</li>
-</ol>
-<ul>
-<li>column definintions for main data sheet (CSV or Googlesheets)</li>
-<li>create validation rules (YAML format)</li>
-<li>data lists such as species lists in CSV or</li>
-<li>list/table for tracking data entry sheets</li>
-<li>CollaboratoR configuration in .Renviron</li>
-</ul>
-<ol start="4" style="list-style-type: decimal">
-<li>Enter data into tabular form</li>
-</ol>
-<ul>
-<li>CSV or GoogleSheets</li>
-<li>add entry to list of URIs (Google sheet urls or CSV file paths)</li>
-</ul>
-<ol start="5" style="list-style-type: decimal">
-<li>Use CollaboratoR package to accumulate metadata</li>
-</ol>
-<ul>
-<li>read metadata: column specification, list of data sheet URIs</li>
-<li>reads in list of data sheets CSV filename or list of googlesheets
-URLs</li>
-<li>validation rules written in YAML and stored a RData file</li>
-</ul>
-<ol start="6" style="list-style-type: decimal">
-<li>automated validation and report</li>
-</ol>
-<ul>
-<li>read data files (from list of URIs in CSV or Google Sheets)</li>
-<li>data format against schema (from column spec)</li>
-<li>category columns are checked against lists (i.e. species lists)</li>
-<li>data values against rules (from YAML file)</li>
-<li>report errors printed for user</li>
-</ul>
-<ol start="7" style="list-style-type: decimal">
-<li>save to git</li>
-</ol>
-<ul>
-<li>those sheets that passed validation are commited to git</li>
-</ul>
-<ol start="8" style="list-style-type: decimal">
-<li>combine to master list(s)</li>
-</ol>
-<ul>
-<li>a master database</li>
-</ul>
-</div>
-</div>
-<div class="section level2">
-<h2 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a>
+<h2 id="getting-started">Getting Started:<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
 <div class="section level3">
 <h3 id="write-your-data-entry-protocol">Write your data entry protocol<a class="anchor" aria-label="anchor" href="#write-your-data-entry-protocol"></a>
 </h3>
-<p>This is beyond the scope of this documentation and package, but
-crucial for successful data synthesis projects. The process for finding,
-extracting and formatting every data point is crucial. This protocol
-will the determine the columns in the datsheet and column definitions in
-metadata</p>
+<p>This example has a very simple data entry protocol “Iris data entry
+protocol” which does not include any information about field collection.
+The data entry protocol for a meta analysis is typically much more
+complex related to how data is extracted and how studies are selected
+and filtered out. See (ref)</p>
 </div>
 <div class="section level3">
-<h3 id="create-metadata-and-configuration">Create metadata and configuration<a class="anchor" aria-label="anchor" href="#create-metadata-and-configuration"></a>
+<h3 id="metadata">Metadata<a class="anchor" aria-label="anchor" href="#metadata"></a>
 </h3>
-<p>Create a table describing the columns in the each to data files based
-on the protocol. This table must have columns as follows:</p>
+<p>The main benefit of this package is that you can write a basic data
+dictionary describing the data sheet columns, which are used for
+collaboration</p>
+<p>Per the ‘workflow’ vignette, this table must have columns as
+follows:</p>
 <table class="table">
 <colgroup>
 <col width="64%">
@@ -327,52 +242,148 @@ on the protocol. This table must have columns as follows:</p>
 </tr>
 </tbody>
 </table>
-<pre><code>col_name,col_description,col_type,example
-id,"id formed from species group and sample location", character,"SetosaMBG"
-Sepal.L., "Sepal length (mm)", double,5.1
-Sepal.W., "Sepal width (mm)", double,3.5
-Petal.L., "Petal length (mm)", double,1.4
-Petal.W., "Petal width (mm)", double,0.2
-group_id, "grouping variable", factor, "SetosaMBG"
-whos, "collector of measurements", character, "ESA"
-site, "name of the site where the data was collected", character, "Main Site"</code></pre>
-<ul>
-<li>create validation rules (YAML format)</li>
-<li>data lists such as species lists in CSV or</li>
-<li>list/table for tracking data entry sheets</li>
-<li>CollaboratoR configuration in .Renviron</li>
-</ul>
+<p>In this example the ” measurements_spec” Google sheet contains this
+information</p>
+<table class="table">
+<colgroup>
+<col width="14%">
+<col width="58%">
+<col width="11%">
+<col width="15%">
+</colgroup>
+<thead><tr class="header">
+<th>col_name</th>
+<th>col_description</th>
+<th>col_type</th>
+<th>example</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Species</td>
+<td>full binomial / species name of observed plant</td>
+<td>character</td>
+<td>Iris setosa</td>
+</tr>
+<tr class="even">
+<td>Sepal.L.</td>
+<td>Sepal length (cm)</td>
+<td>double</td>
+<td>5.1</td>
+</tr>
+<tr class="odd">
+<td>Sepal.W.</td>
+<td>Sepal width (cm)</td>
+<td>double</td>
+<td>3.5</td>
+</tr>
+<tr class="even">
+<td>Petal.L.</td>
+<td>Petal length (cm)</td>
+<td>double</td>
+<td>1.4</td>
+</tr>
+<tr class="odd">
+<td>Petal.W.</td>
+<td>Petal width (cm)</td>
+<td>double</td>
+<td>0.2</td>
+</tr>
+<tr class="even">
+<td>Group.Id.</td>
+<td>grouping variable (genus name)</td>
+<td>factor</td>
+<td>setosa</td>
+</tr>
+<tr class="odd">
+<td>Entered.By.</td>
+<td>initials of the person entering this row of data</td>
+<td>character</td>
+<td>ESA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="species-look-up-list">Species Look-up List<a class="anchor" aria-label="anchor" href="#species-look-up-list"></a>
+</h3>
+<p>The CollaboratoR package can also check a column against a list. In
+this small example the column “Species” can have one of three entries.
+The sheet also called “species” is simply list of correct values for
+this column.</p>
+<p>While not part of the CollaboratoR package, one can also use these
+lists in the data sheet templates.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="enter-data-into-tabular-form">Enter data into tabular form<a class="anchor" aria-label="anchor" href="#enter-data-into-tabular-form"></a>
 </h2>
-<ul>
-<li>CSV or GoogleSheets</li>
-<li>add entry to list of URIs (Google sheet urls or CSV file paths)</li>
-</ul>
+<p>The protocol should be clear how to split up the data into logical
+groups across spreadsheets. To add more data to the project, copy the
+template (if you’ve made one) and name the spreadsheet for the group you
+are entering. In this example, copy the template sheet
+<code>iris_template</code> and save as for example,
+<code>iris_setosa</code></p>
+<p>Another option for grouping in this example could be by sampling site
+(if we knew it) Sampling site is not included as a column in our example
+but it could be. In that case sheets would be a mix of species which
+would also be ok. The reason to split the data across sheets is to split
+up the work (data extraction and data entry).</p>
 </div>
 <div class="section level2">
-<h2 id="use-collaborator-package-to-accumulate-metadata">Use CollaboratoR package to accumulate metadata<a class="anchor" aria-label="anchor" href="#use-collaborator-package-to-accumulate-metadata"></a>
+<h2 id="add-complete-data-sheets-to-list-for-validation">Add complete data sheets to list for validation<a class="anchor" aria-label="anchor" href="#add-complete-data-sheets-to-list-for-validation"></a>
 </h2>
-<ul>
-<li>read metadata: column specification, list of data sheet URIs</li>
-<li>reads in list of data sheets CSV filename or list of googlesheets
-URLs</li>
-<li>validation rules written in YAML and stored a RData file</li>
-</ul>
+<p>The package requires a list of sheets to download and read-in. In our
+example that list is in a sheet creatively called
+<code>data sheet list</code></p>
+<p>A sheet does not have to all the data in it to be included on this
+list, you just need to prepare it for validation.</p>
+</div>
+<div class="section level2">
+<h2 id="prepare-an-r-project-and-git-repository">Prepare an R project and git repository<a class="anchor" aria-label="anchor" href="#prepare-an-r-project-and-git-repository"></a>
+</h2>
+<p>The core of this workflow is not the google sheets, but an R project
+folder where you use CollaboratoR to pull in data entered into google
+sheets, validate and analyze.</p>
+<p>We’ve prepared an example project on Github for these data:</p>
+<p><a href="https://github.com/IBEEM-MSU/CollaboratoR_example">CollaboratoR_example</a></p>
+<p>The essential files are in this repository along with example data.
+To work through this tutorial you will have to make a similar repository
+and complete the configuration for Google APIs and optionally Github. In
+this R project folder you will need to install this package and it’s
+dependencies from github. Using the <a href="#">renv</a> package is a
+great choice as it isolates projects that need different packages</p>
+<p>For example: <code><a href="https://rstudio.github.io/renv/reference/install.html" class="external-link">renv::install()</a></code></p>
+</div>
+<div class="section level2">
+<h2 id="configure-google-sheets-for-automatic-download">Configure Google Sheets for Automatic download<a class="anchor" aria-label="anchor" href="#configure-google-sheets-for-automatic-download"></a>
+</h2>
+<p>The vignette <a href="google_sheets_api.html">Google Sheets API setup
+using Google Cloud</a> describes in detail how to set this. To work this
+example will need to create a Google cloud API to access these data
+sheets from</p>
 </div>
 <div class="section level2">
 <h2 id="initiate-automated-validation-and-report">Initiate automated validation and report<a class="anchor" aria-label="anchor" href="#initiate-automated-validation-and-report"></a>
 </h2>
+<p>In your R project,</p>
 <ul>
 <li>read data files (from list of URIs in CSV or Google Sheets)</li>
 <li>data format against schema (from column spec)</li>
 <li>category columns are checked against lists (i.e. species lists)</li>
 <li>data values against rules (from YAML file)</li>
-<li>report errors printed for user ## save to git</li>
+<li>report errors printed for user</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="save-to-git">save to git<a class="anchor" aria-label="anchor" href="#save-to-git"></a>
+</h2>
+<ul>
 <li>those sheets that passed validation are committed to git</li>
 </ul>
+<p><strong>TO DO</strong> - include actual data validation report -
+introduce both numeric and formatting errors to generate validation
+report items - histogram etc of EDA simple charts - to show outliers
+(e.g. errors)</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

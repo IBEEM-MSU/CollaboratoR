@@ -9,7 +9,7 @@ library(CollaboratoR)
 
 This walks through an example of a collection of example Google Sheets
 needed for collaborative data entry, how to configure the software (the
-pieces of infromation you need), and how to automatically download and
+pieces of infoomation you need), and how to automatically download and
 validate the data.
 
 ## Example Data
@@ -24,11 +24,12 @@ Quebec (Anderson 1936).
 As of this writing, there is a public folder in Google Docs/Workspace
 with these files
 
-If this is no longer available (nothing is forever!), in the `raw_data`
-folder of this repository\](<https://github.com/IBEEM-MSU/CollaboratoR>)
-is a zip file containing XLSX formatted versions of these sheets that
-you may upload to your own Google Drive shared folder (full instructions
-for recreating our examle data set in Google drive is TBD)
+If this is no longer availableon Google (nothing is forever!), in our
+
+[example data
+repository](https://github.com/IBEEM-MSU/CollaboratoR_example), as a zip
+file containing XLSX formatted versions of these sheets that you may
+upload to your own Google Drive shared folder.
 
 While this data set is small, they are split by species in the sheets to
 simulate collaborative data.
@@ -43,11 +44,11 @@ sheets in the table below:
 
 [TABLE]
 
-## saved…
+## Example Sheets setup
 
 The folder for this example project has the following sheets in it
 
-- Iris data entry protocol: ficitious protocol for how measurements may
+- Iris data entry protocol: fictitious protocol for how measurements may
   be collaboratively entered for validation.
 - id_urls : table of data sheets and their associated google urls
 - iris_template : example blank data sheet to use for new entries
@@ -58,88 +59,23 @@ The folder for this example project has the following sheets in it
   project, used for both validation steps, and for limiting data in the
   data entry template spreadsheet
 
-## saved… Process: Getting Started
-
-After designing the goals and basic process/protocol for your study, to
-use spreadshseets to collect data and use this package, one should
-include the following:
-
-- data entry protocol (distinct from the data collection protocol)
-- data specification: list of variables included in data entry sheets
-- template data sheet, a blank spreadsheet with columns as defined in
-  the data specification
-- One or more data sheets, creatd from the template
-- a table of all data sheets ready for validation
-
-The example sheets above \## Process: CollaboratoR Set
-
-- installing this package and it’s dependencies (Readr, etc)
-
-### Setup/Configuration
-
-- Install using instructions in the project’s
-  [README](https://github.com/IBEEM-MSU/CollaboratoR/README.md)
-- Information on how to set-up google workspace in the vignette for
-  [Google Sheets
-  API](https://github.com/IBEEM-MSU/CollaboratoR/articles/google_sheets_api.md)
-  setup.\
-- This package relies on [configuration values in the `.Renviron`
-  file](https://github.com/IBEEM-MSU/CollaboratoR/articles/project_configuration.md)
-
-### Workflow Summary
-
-1.  Write your data entry protocol (outside of this system but crucial
-    for organization)
-2.  Setup Git repositories to hold data as it flows through
-3.  Create metadata and configuration
-
-- column definintions for main data sheet (CSV or Googlesheets)
-- create validation rules (YAML format)
-- data lists such as species lists in CSV or
-- list/table for tracking data entry sheets
-- CollaboratoR configuration in .Renviron
-
-4.  Enter data into tabular form
-
-- CSV or GoogleSheets
-- add entry to list of URIs (Google sheet urls or CSV file paths)
-
-5.  Use CollaboratoR package to accumulate metadata
-
-- read metadata: column specification, list of data sheet URIs
-- reads in list of data sheets CSV filename or list of googlesheets URLs
-- validation rules written in YAML and stored a RData file
-
-6.  automated validation and report
-
-- read data files (from list of URIs in CSV or Google Sheets)
-- data format against schema (from column spec)
-- category columns are checked against lists (i.e. species lists)
-- data values against rules (from YAML file)
-- report errors printed for user
-
-7.  save to git
-
-- those sheets that passed validation are commited to git
-
-8.  combine to master list(s)
-
-- a master database
-
-## Workflow
+## Getting Started:
 
 ### Write your data entry protocol
 
-This is beyond the scope of this documentation and package, but crucial
-for successful data synthesis projects. The process for finding,
-extracting and formatting every data point is crucial. This protocol
-will the determine the columns in the datsheet and column definitions in
-metadata
+This example has a very simple data entry protocol “Iris data entry
+protocol” which does not include any information about field collection.
+The data entry protocol for a meta analysis is typically much more
+complex related to how data is extracted and how studies are selected
+and filtered out. See (ref)
 
-### Create metadata and configuration
+### Metadata
 
-Create a table describing the columns in the each to data files based on
-the protocol. This table must have columns as follows:
+The main benefit of this package is that you can write a basic data
+dictionary describing the data sheet columns, which are used for
+collaboration
+
+Per the ‘workflow’ vignette, this table must have columns as follows:
 
 | Column | Description |
 |----|----|
@@ -148,40 +84,95 @@ the protocol. This table must have columns as follows:
 | col_type | name of the datatype, see datatype list below |
 | example | human readable example for guidance |
 
-    col_name,col_description,col_type,example
-    id,"id formed from species group and sample location", character,"SetosaMBG"
-    Sepal.L., "Sepal length (mm)", double,5.1
-    Sepal.W., "Sepal width (mm)", double,3.5
-    Petal.L., "Petal length (mm)", double,1.4
-    Petal.W., "Petal width (mm)", double,0.2
-    group_id, "grouping variable", factor, "SetosaMBG"
-    whos, "collector of measurements", character, "ESA"
-    site, "name of the site where the data was collected", character, "Main Site"
+In this example the ” measurements_spec” Google sheet contains this
+information
 
-- create validation rules (YAML format)
-- data lists such as species lists in CSV or
-- list/table for tracking data entry sheets
-- CollaboratoR configuration in .Renviron
+| col_name | col_description | col_type | example |
+|----|----|----|----|
+| Species | full binomial / species name of observed plant | character | Iris setosa |
+| Sepal.L. | Sepal length (cm) | double | 5.1 |
+| Sepal.W. | Sepal width (cm) | double | 3.5 |
+| Petal.L. | Petal length (cm) | double | 1.4 |
+| Petal.W. | Petal width (cm) | double | 0.2 |
+| Group.Id. | grouping variable (genus name) | factor | setosa |
+| Entered.By. | initials of the person entering this row of data | character | ESA |
+
+### Species Look-up List
+
+The CollaboratoR package can also check a column against a list. In this
+small example the column “Species” can have one of three entries. The
+sheet also called “species” is simply list of correct values for this
+column.
+
+While not part of the CollaboratoR package, one can also use these lists
+in the data sheet templates.
 
 ## Enter data into tabular form
 
-- CSV or GoogleSheets
-- add entry to list of URIs (Google sheet urls or CSV file paths)
+The protocol should be clear how to split up the data into logical
+groups across spreadsheets. To add more data to the project, copy the
+template (if you’ve made one) and name the spreadsheet for the group you
+are entering. In this example, copy the template sheet `iris_template`
+and save as for example, `iris_setosa`
 
-## Use CollaboratoR package to accumulate metadata
+Another option for grouping in this example could be by sampling site
+(if we knew it) Sampling site is not included as a column in our example
+but it could be. In that case sheets would be a mix of species which
+would also be ok. The reason to split the data across sheets is to split
+up the work (data extraction and data entry).
 
-- read metadata: column specification, list of data sheet URIs
-- reads in list of data sheets CSV filename or list of googlesheets URLs
-- validation rules written in YAML and stored a RData file
+## Add complete data sheets to list for validation
+
+The package requires a list of sheets to download and read-in. In our
+example that list is in a sheet creatively called `data sheet list`
+
+A sheet does not have to all the data in it to be included on this list,
+you just need to prepare it for validation.
+
+## Prepare an R project and git repository
+
+The core of this workflow is not the google sheets, but an R project
+folder where you use CollaboratoR to pull in data entered into google
+sheets, validate and analyze.
+
+We’ve prepared an example project on Github for these data:
+
+[CollaboratoR_example](https://github.com/IBEEM-MSU/CollaboratoR_example)
+
+The essential files are in this repository along with example data. To
+work through this tutorial you will have to make a similar repository
+and complete the configuration for Google APIs and optionally Github. In
+this R project folder you will need to install this package and it’s
+dependencies from github. Using the [renv](#) package is a great choice
+as it isolates projects that need different packages
+
+For example:
+[`renv::install()`](https://rstudio.github.io/renv/reference/install.html)
+
+## Configure Google Sheets for Automatic download
+
+The vignette [Google Sheets API setup using Google
+Cloud](https://github.com/IBEEM-MSU/CollaboratoR/articles/google_sheets_api.md)
+describes in detail how to set this. To work this example will need to
+create a Google cloud API to access these data sheets from
 
 ## Initiate automated validation and report
+
+In your R project,
 
 - read data files (from list of URIs in CSV or Google Sheets)
 - data format against schema (from column spec)
 - category columns are checked against lists (i.e. species lists)
 - data values against rules (from YAML file)
-- report errors printed for user \## save to git
+- report errors printed for user
+
+## save to git
+
 - those sheets that passed validation are committed to git
+
+**TO DO** - include actual data validation report - introduce both
+numeric and formatting errors to generate validation report items -
+histogram etc of EDA simple charts - to show outliers (e.g. errors)
 
 ## References
 

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CollaboratoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,7 +116,8 @@ package</a> for data content validation</li>
 <h3 id="setupconfiguration">Setup/Configuration<a class="anchor" aria-label="anchor" href="#setupconfiguration"></a>
 </h3>
 <ul>
-<li>Install using instructions in the project’s <a href="../README.html">README</a>
+<li>Install this package from github using <a href="https://rstudio.github.io/renv/articles/renv.html" class="external-link">renv</a> as
+<code>renv::install('IBEEM-MSU/CollaboratoR')</code>
 </li>
 <li>Information on how to set-up google workspace in the vignette for <a href="google_sheets_api.html">Google Sheets API</a> setup.<br>
 </li>
@@ -226,15 +227,6 @@ on the protocol. This table must have columns as follows:</p>
 </tr>
 </tbody>
 </table>
-<pre><code>col_name,col_description,col_type,example
-id,"id formed from species group and sample location", character,"SetosaMBG"
-Sepal.L., "Sepal length (mm)", double,5.1
-Sepal.W., "Sepal width (mm)", double,3.5
-Petal.L., "Petal length (mm)", double,1.4
-Petal.W., "Petal width (mm)", double,0.2
-group_id, "grouping variable", factor, "SetosaMBG"
-whos, "collector of measurements", character, "ESA"
-site, "name of the site where the data was collected", character, "Main Site"</code></pre>
 <ul>
 <li>create validation rules (YAML format)</li>
 <li>data lists such as species lists in CSV or</li>
