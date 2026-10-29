@@ -31,7 +31,7 @@
 #     slowly
 
 require(dplyr)
-gdrive_setup()
+
 
 ### GLOBALS
 csv_folder = '../L0'
@@ -44,6 +44,7 @@ data(commassembly_rules_env_str)
 
 # sheet_data is one row of the URLS data frame, as a list, url is ..$url
 read_and_report<- function(url, tab_name, spec.df, id=NA){
+  gdrive_setup()
   read_data_sheet_save_warnings <- CollaboratoR::errorSaver(read_data_sheet)
   data.df <- CollaboratoR::read_data_sheet_save_warnings(gurl = url,
                                            tab_name,
@@ -109,6 +110,7 @@ save_csvs<- function(sheet_data, verbose = FALSE){
 }
 
 validate_and_save_one<-function(id, urls.df = NULL, verbose = FALSE){
+  gdrive_setup()
   if(is.null(urls.df)){
     doc_with_list_url <- Sys.getenv('TEST_ID_LIST_URL')
     id_column = 'ID_new'

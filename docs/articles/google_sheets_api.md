@@ -41,11 +41,11 @@ Workflow summary:
 
 - get a google cloud account. Each institutione regulated google cloud
   accounts differently. At ours you must request it and request access
-  for each person.  
+  for each person.\
   If your team is all using the same google workspace (e.g. at the same
   university or company) it’s much easier and you should create a google
   cloud account in that domain. Most institutions restrict this so you
-  may need help from your institutions cloud gatekeepers.  
+  may need help from your institutions cloud gatekeepers.\
   The process described here does not require a “billing account”
   associated with your google cloud account as it’s only need to enable
   the APIs and there are no charges for doing so.
@@ -77,7 +77,7 @@ Workflow summary:
     don’t cover that.
 
   - google also calls these ‘consent screens’ *“apps”* so you have to
-    give it an app name - use the same as the credentials name above.  
+    give it an app name - use the same as the credentials name above.\
 
   - user support email is your email
 
@@ -95,7 +95,7 @@ Workflow summary:
 
     - since this is just for internal collaborators, use the same url
       for all of home page, privacy policy link and terms of service
-      link.  
+      link.\
 
   - If using external users, you may have to add a domain for each user
     that is their instution, or perhaps use gmail for everyone. (not

@@ -47,9 +47,11 @@ workflow tracks changes to data using git.
 
 ### Setup/Configuration
 
-- Install using instructions in the project's [README](../README.md)
+- Install this package from github using [renv](https://rstudio.github.io/renv/articles/renv.html) as
+  `renv::install('IBEEM-MSU/CollaboratoR')`
 - Information on how to set-up google workspace in the vignette for [Google Sheets API](google_sheets_api.html) setup.  
 - This package relies on [configuration values in the `.Renviron` file](project_configuration.html)
+
 
 ### Workflow Summary
 

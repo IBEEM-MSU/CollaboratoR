@@ -4,7 +4,7 @@
 # for open CSV files when you don't have Google Drive Desktop installed (and Google shared drive
 # mounted )
 #
-# Author: Pat Bills, Michigan State University, Spring 2024
+# Author: Pat Bills, ICER and IBEEM, Michigan State University, Spring 2024
 # collaborators : see DESCRIPTION of this package
 #
 #

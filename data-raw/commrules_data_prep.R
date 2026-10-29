@@ -80,13 +80,11 @@ prep_iris_species_df <-function(genus){
   df <- data.frame(iris3[,,genus])
   df$group_id <- rep(genus, nrow(df))
   df$whos <- rep('ESA', nrow(df))
-  df$site <- rep('Missouri Botanical Garden', nrow(df))
-  df$site <- rep('Missouri Botanical Garden', nrow(df))
   return(df)
 }
 
 save_iris_species_df <-function(raw_data_dir = 'data-raw'){
-  readr::write_csv( prep_iris_species_df("Setosa"), file.path(raw_data_dir,  "Setosa.csv"))
-  readr::write_csv( prep_iris_species_df("Versicolor"), file.path(raw_data_dir,  "Versicolor.csv"))
-  readr::write_csv( prep_iris_species_df("Virginica"), file.path(raw_data_dir,  "Virginica.csv"))
+  readr::write_csv( prep_iris_species_df("Setosa"), file.path(raw_data_dir,  "setosa.csv"))
+  readr::write_csv( prep_iris_species_df("Versicolor"), file.path(raw_data_dir,  "versicolor.csv"))
+  readr::write_csv( prep_iris_species_df("Virginica"), file.path(raw_data_dir,  "virginica.csv"))
 }

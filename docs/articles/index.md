@@ -3,6 +3,8 @@
 ### All vignettes
 
 - [CollaboratoR
+  Example](https://github.com/IBEEM-MSU/CollaboratoR/articles/collaborator_example.md):
+- [CollaboratoR
   Workflow](https://github.com/IBEEM-MSU/CollaboratoR/articles/collaborator_workflow.md):
 - [Google Sheets API setup using Google
   Cloud](https://github.com/IBEEM-MSU/CollaboratoR/articles/google_sheets_api.md):

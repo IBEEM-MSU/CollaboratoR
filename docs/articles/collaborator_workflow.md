@@ -42,7 +42,7 @@ data using git.
 - Information on how to set-up google workspace in the vignette for
   [Google Sheets
   API](https://github.com/IBEEM-MSU/CollaboratoR/articles/google_sheets_api.md)
-  setup.  
+  setup.\
 - This package relies on [configuration values in the `.Renviron`
   file](https://github.com/IBEEM-MSU/CollaboratoR/articles/project_configuration.md)
 

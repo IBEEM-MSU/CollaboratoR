@@ -24,14 +24,14 @@ IBEEM](https://ibeem.msu.edu) and the
 
 Performing research data synthesis, such as a meta-analysis, requires
 collating and harmonizing data extracted from many different sources but
-most frequently scientific publications.  
+most frequently scientific publications.\
 Collaborative research data synthesis requires a group of scientists to
 collectively develop and agree on their goals, type of data extracted,
 format of the those data, and to do so extremely consistently across
 papers. This package helps to support that efficiently by providing a
 workflow using the common CSV format for data definition and data entry,
 with support for collaborative editing of CSVs with the user-friendy
-Google Sheets.  
+Google Sheets.\
 The workflow in this project can read directly from Google sheets into
 CSVs and validate the structure of a google sheet as well as the data
 using the Validate package.
@@ -81,7 +81,7 @@ lifecycle](https://edirepository.org/resources/creating-metadata-during-the-rese
   need to install, which creates an `renv.lock` file for you.
 
   1.  install the renv package: this can go into your R environment used
-      for all packages.  
+      for all packages.\
   2.  in R run
       [`renv::restore()`](https://rstudio.github.io/renv/reference/restore.html)
       or if that complains about R versions
@@ -92,10 +92,10 @@ lifecycle](https://edirepository.org/resources/creating-metadata-during-the-rese
 ## Installation - Google Workspace
 
 It’s possible to use this workflow by editing CSV version of the tabular
-data. However,  
+data. However,\
 many of the instructions, functions and tests are designed to work with
 Google Drive as that was our preferred way to collaborative edit tabular
-data.  
+data.\
 See the vignette in this package “Google Sheets API setup using Google
 Cloud”, or in this source code see [Google Sheets Vignette
 RMD](https://github.com/IBEEM-MSU/CollaboratoR/vignettes/google_sheets_api.Rmd)
@@ -239,6 +239,8 @@ Statistical Software}, year={2021}, volume ={97}, issue = {10}, pages =
 
 ### All vignettes
 
+- [CollaboratoR
+  Example](https://github.com/IBEEM-MSU/CollaboratoR/articles/collaborator_example.md):
 - [CollaboratoR
   Workflow](https://github.com/IBEEM-MSU/CollaboratoR/articles/collaborator_workflow.md):
 - [Google Sheets API setup using Google

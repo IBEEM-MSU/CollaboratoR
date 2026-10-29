@@ -24,88 +24,69 @@ This walks through an example of a collection of example Google Sheets needed
 for collaborative data entry, how to configure the software (the pieces of 
 infromation you need), and how to automatically download and validate the data. 
 
-These examples are, as of this writing, in a google drive space that is publicly
-readable for this tutorial. If this is not longer available (nothing is forever!),
-the Google sheet URLs may not be valid.  However in the 'raw data' folder is a 
-zip file containing XLSX formatted versions of these sheets that may be uploaded to 
-a newly created drive folder in your own space if you'd like to try them.  
-Instructions TBD but will be added at the end of this article. 
 
 ## Example Data
 
-We've setup a small collection based on What's known as  Fisher's Iris data,
-collected by Edgar Anderson on the Gaspé Peninsula in Quebec (Anderson 1936)
+This walk-through will use a small collection of short files from 
+what's known as [*"Fisher's Iris data"*](https://en.wikipedia.org/wiki/Iris_flower_data_set) 
+or *"Anderson's Iris data"*: a famous data set of measurments of flower sepals
+and petals collected by Edgar Anderson on the Gaspé Peninsula in Quebec (Anderson 1936).
+
+As of this writing, there is a public folder in Google Docs/Workspace with these files
+ 
+If this is no longer available (nothing is forever!), in the `raw_data` folder of 
+this repository](https://github.com/IBEEM-MSU/CollaboratoR) is a zip file 
+containing XLSX formatted versions of these sheets that you may upload to your 
+own Google Drive shared folder (full instructions for recreating our examle data
+set in Google drive is TBD)
 
 While this data set is small, they are split by species in the sheets to simulate
 collaborative data.  
 
-## Design Decisions
+## Getting started: setting up data sheets for entry
 
-Which data is being collected and naming columns 
-How to split the data and enter
+This package was designed to assist with a workflow that used spreadsheets for 
+the following functions.  After designing the goals and basic process/protocol for your study, to 
+use spreadshseets to collect data and use this package, 
+one should include the following types of sheets in the table below: 
 
 
-### Components
+| Element             | Description/Function                                                                                                                                                                                                                                                                                                                                                       | example sheet names                          | example sheet description                                                                                                                                       |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **data entry protocol** | (distinct from the data collection protocol, this is a detailed description how <br>data extract from field data or for a meta analysis, not specific to this package                                                                                                                                                                                                      | **Iris data entry protocol**                     | ficitious protocol for how measurements may be collaboratively entered for validation                                                                           |
+| **data specification**  | list of variables included in data entry sheets with data types, i.e. the 'data dictionary.' All variables here should be represented <br>in the data entry template                                                                                                                                                                                                       | **measurements_spec**                            | List of Sepal and petal measurements with grouping and entry information                                                                                        |
+| **data sheet template** | this is not required but helpful. a blank spreadsheet with columns as defined in the<br> data specification.                                                                                                                                                                                                                                                               | **iris_template **                               | example blank data sheet, to be copied and saved for per-species data entry                                                                                     |
+| **data sheets**         | copies of template filled with data, each row identifies who entered these data, and data/tasks is split on a logical grouping depending on your protocol/process.                                                                                                                                                                                                         | **iris_setosa, iris_versicolor, iris_virginica** | per-species sepal and petal measurment data for this example                                                                                                    |
+| **data sheet list**     | a table of all data sheets ready for validation with URLs for CollaboratoR to read from                                                                                                                                                                                                                                                                                    | **id_urls**                                      | listing of data sheets above with Google Sheets URLs<br>                                                                                                        |
+| **group lookup values** | columns holding identifying variables used groupming must be entered correctly.  A list of the acceptable values for that grouping variable is useful for both the data entry template and for the validation step.  An example categorical grouping column may be "species" (as in our example).  CollaboratoR currently can only provide this function for one column.   | **species **                                     | a single column list of species included in this example project, used  for both validation steps, and for limiting data in the data entry template spreadsheet |
 
-- (optionally) Google Sheets to entry of data and meta-data
-   - other systems could be used with manual export of CSVs, 
-     this package has capability of automatically pulling from Google Sheets
--  meta-data and data store in common tabular data formats
-    - CSV is basis for using version control
-    - this package enables use of user-friendly Google Sheets for editing these
-- R [Readr](https://readr.tidyverse.org/) package for data column name and 
-  data type validation
-- R [Validate package](https://github.com/data-cleaning/validate) for data 
-  content validation
-- git to track changes to data and meta-data via CSV text file
-- (optionally) Git service to share results via the web
-   - Github or other git services, such as [Gitlab](https://gitlab.com)
-   - on premise Gitlab servers could be used ( our institution provides https://gitlab.msu.edu )
+## Example Sheets setup
 
-### Setup/Configuration
+The folder for this example project has the following sheets in it
 
-- Install using instructions in the project's [README](../README.md)
-- Information on how to set-up google workspace in the vignette for [Google Sheets API](google_sheets_api.html) setup.  
-- This package relies on [configuration values in the `.Renviron` file](project_configuration.html)
+ - Iris data entry protocol: fictitious protocol for how measurements may be
+   collaboratively entered for validation. 
+ - id_urls : table of data sheets and their associated google urls
+ - iris_template : example blank data sheet to use for new entries 
+ - iris_setosa, iris_versicolor, iris_virginica : data sheets by species
+ - measurements_spec : the 'data dictionary' list of variables in data sheets
+   with descriptions
+ - species : a single column list of species included in this data project, used
+   for both validation steps, and for limiting data in the data entry template
+   spreadsheet
 
-### Workflow Summary
 
-1. Write your data entry protocol (outside of this system but crucial for organization)
-2. Setup Git repositories to hold data as it flows through
-3. Create metadata and configuration
-  - column definintions for main data sheet (CSV or Googlesheets)
-  - create validation rules (YAML format)
-  - data lists such as species lists in CSV or 
-  - list/table for tracking data entry sheets
-  - CollaboratoR configuration in .Renviron
-4. Enter data into tabular form 
-  - CSV or GoogleSheets
-  - add entry to list of URIs (Google sheet urls or CSV file paths) 
-5. Use CollaboratoR package to accumulate metadata
-  - read metadata: column specification, list of data sheet URIs
-  - reads in list of data sheets CSV filename or list of googlesheets URLs
-  - validation rules written in YAML and stored a RData file
-6. automated validation and report 
-  - read data files (from list of URIs in CSV or Google Sheets)
-  - data format against schema (from column spec)
-  - category columns are checked against lists (i.e. species lists)
-  - data values against rules (from YAML file)
-  - report errors printed for user
-7. save to git
-  - those sheets that passed validation are commited to git
-8. combine to master list(s)
-  - a master database 
-
-## Workflow 
+## Getting Started:  
 
 ### Write your data entry protocol
 
 This is beyond the scope of this documentation and package, 
 but crucial for successful data synthesis projects. The process for finding, extracting
 and formatting every data point is crucial.  This protocol will the determine the 
-columns in the datsheet and column definitions in metadata
+columns in the datsheet and column definitions in metadata.  there is an example
+in the folder above. 
 
-### Create metadata and configuration
+### Create metadata
 
 Create a table describing the columns in the each to data files based on the protocol. 
 This table must have columns as follows: 
@@ -117,6 +98,7 @@ col_description | human reable description based on your data collection protoco
 col_type        | name of the datatype, see datatype list below
 example         | human readable example for guidance
 
+In this example the " measurements_spec" google sheet contains this information
 
 ```
 col_name,col_description,col_type,example
@@ -130,11 +112,10 @@ whos, "collector of measurements", character, "ESA"
 site, "name of the site where the data was collected", character, "Main Site"
 ```
 
+### Lookup Lists
 
-  - create validation rules (YAML format)
-  - data lists such as species lists in CSV or 
-  - list/table for tracking data entry sheets
-  - CollaboratoR configuration in .Renviron
+The CollaboratoR package can 
+ 
 
 ## Enter data into tabular form 
   - CSV or GoogleSheets
@@ -154,7 +135,11 @@ site, "name of the site where the data was collected", character, "Main Site"
 ## save to git
   - those sheets that passed validation are committed to git
 
-
+**TO DO**
+  - include actual data validation report
+  - introduce both numeric and formatting errors to generate validation report items
+  - histogram etc of EDA simple charts - to show outliers (e.g. errors)
+  
 ## References
 
 Edgar Anderson (1936). "The species problem in Iris". Annals of the Missouri Botanical Garden. 23 (3): 457–509. Bibcode:1936AnMBG..23..457A. doi:10.2307/2394164. JSTOR 2394164.
