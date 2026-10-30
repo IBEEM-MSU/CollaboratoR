@@ -34,10 +34,10 @@ and petals collected by Edgar Anderson on the Gaspé Peninsula in Quebec (Anders
 
 As of this writing, there is a public folder in Google Docs/Workspace with these files
  
-If this is no longer availableon Google (nothing is forever!), in our
+If this folder or sheetrs areno longer available on Google (nothing is forever!), in our
 
 [example data repository](https://github.com/IBEEM-MSU/CollaboratoR_example), 
-as a zip file containing XLSX formatted versions of these sheets that you may upload to your 
+is a zip file containing XLSX formatted versions of these sheets that you may upload to your 
 own Google Drive shared folder. 
 
 While this data set is small, they are split by species in the sheets to simulate
@@ -46,7 +46,18 @@ collaborative data.
 ## Getting started: setting up data sheets for entry
 
 This package was designed to assist with a workflow that used spreadsheets for 
-the following functions.  After designing the goals and basic process/protocol for your study, to 
+the following functions.  
+
+### Create a Google Shared Drive
+
+This examples has prepared files to view.  When you start your project, you will need
+to create a ["Google Shared Drive"](https://support.google.com/drive/answer/7286514) to hold the files
+and give each collaborator full access to this drive.  See the [Google drive vignette](google_sheets_api.html) for details.  
+
+
+### Workflow Sheets
+
+After designing the goals and basic process/protocol for your study, to 
 use spreadshseets to collect data and use this package, 
 one should include the following types of sheets in the table below: 
 
@@ -62,7 +73,7 @@ one should include the following types of sheets in the table below:
 
 ## Example Sheets setup
 
-The folder for this example project has the following sheets in it
+The [shared drive folder](https://docs.google.com/spreadsheets/d/1H5-S15k9L8ZiOB_lZqzFALM3VOc67Smy5_9x9stjrrA/edit?usp=sharing) for this example project has the following sheets in it
 
  - Iris data entry protocol: fictitious protocol for how measurements may be
    collaboratively entered for validation. 
@@ -157,7 +168,8 @@ configuration for Google APIs and optionally Github.  In this R project folder y
 will need to install this package and it's dependencies from github.  Using the
 [renv](#) package is a great choice as it isolates projects that need different packages
 
-For example: `renv::install() `
+For example: `renv::install('IBEEM-MSU/CollaboratoR') ` will install this package from 
+it's [home on github](https://github.com/IBEEM-MSU/CollaboratoR) (until it's published on CRAN)
 
 ## Configure Google Sheets for Automatic download
 
@@ -167,20 +179,15 @@ Google cloud API to access these data sheets and update the
 [project configuration](project_configuration.html)
 
 
-<!-- set up google aip -->
-
 ## About Validation and Setup
 
 As described in the workflow vignette, this package does two levels of 
 validation: structural and constraints. 
 
-
-
 ## Initiate automated validation and report 
 
 In your R project, 
 
-  
   - read data files (from list of URIs in CSV or Google Sheets)
   - data format against schema (from column spec)
   - category columns are checked against lists (i.e. species lists)
