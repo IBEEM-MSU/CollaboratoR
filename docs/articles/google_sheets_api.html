@@ -66,133 +66,39 @@
 
     
     
-<p>A goal of this package is to enable the use of Google Sheets for
-collaborative data entry with familiar spreadsheet features. The package
-could also have used MS Office on-line excel editing, but excel files on
-desktop have historically had issues with datetime conversion (Mac vs
-Windows), line endings, and character encoding.</p>
-<p>A main feature then is to read in google ‘sheets’ files as data for
-validation and processing. However, accessing google drive files
-requires significant setup for an ‘app’ to access files. This vignette
-describes how that works.</p>
-<p>This package relies upon the great work from Posit in the
-<code>googlesheets4</code> package, which in turn relies on the
-Posit-authored <a href="Bryan%20J,%20Citro%20C,%20Wickham%20H%202023">gargle</a>. gargle:
-Utilities for Working with Google APIs. <a href="https://gargle.r-lib.org" class="external-link uri">https://gargle.r-lib.org</a>.)</p>
-<p>However before even starting R you need a Google Cloud project. The
-gargle package has some instructions for this:
-<code><a href="https://gargle.r-lib.org/articles/get-api-credentials.html" class="external-link">vignette("get-api-credentials", package = "gargle")</a></code></p>
-<p>This is essentially a desktop app to read private google sheets, so
-in that guide we wan at to create “OAuth 2.0 client ID and secret”</p>
-<p>The ‘gargle’ vignette states:</p>
-<blockquote>
-<p>Note that most users of gargle-using packages do not need to read
-this and can just enjoy the automatic token flow. This article is for
-people who have a specific reason to be more proactive about auth.</p>
-</blockquote>
-<p>We’ve found that one gets several “insufficient permissions” at out
-institution since Google has added several layers of permissions Google
-Workspace, and to access files on a shared drives we have to go through
-this process. YMMV</p>
-<p>Workflow summary:</p>
-<ul>
-<li><p>get a google workspace account, or use your intitutions
-account</p></li>
-<li><p>get a google cloud account. Each institutione regulated google
-cloud accounts differently. At ours you must request it and request
-access for each person.<br>
-If your team is all using the same google workspace (e.g. at the same
-university or company) it’s much easier and you should create a google
-cloud account in that domain. Most institutions restrict this so you may
-need help from your institutions cloud gatekeepers.<br>
-The process described here does not require a “billing account”
-associated with your google cloud account as it’s only need to enable
-the APIs and there are no charges for doing so.</p></li>
-<li><p>create a new cloud project in the console</p></li>
-<li><p>in the console go to the APIs page <a href="https://console.cloud.google.com/apis/" class="external-link uri">https://console.cloud.google.com/apis/</a></p></li>
-<li>
-<p>create ‘credentials’ which is aka “service account”</p>
-<ul>
-<li><a href="https://console.cloud.google.com/apis/credentials" class="external-link uri">https://console.cloud.google.com/apis/credentials</a></li>
-<li>click ‘create credentials’ and follow the prompts.
-<ul>
-<li>give the credential a name (which would be the name of this
-package)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>setup the OAuth consent screen. If you are all close
-collaborators you may wonder why you have to setup a consent screen but
-it’s google and you do</p>
-<ul>
-<li><p>give it name related to your project that is unique but that all
-collaborators would instantly recognize, perhaps “ProjectX-R”</p></li>
-<li><p>it’s much easier to make this consent ‘internal’ which limits
-users in the same ‘workspace’ as you (my institution has essential one
-workspace for all users ). If using external collaborators with
-email/google drive accounts that are not your institution pick
-‘external.’ this will change what you need to do but these notes don’t
-cover that.</p></li>
-<li><p>google also calls these ‘consent screens’ <em>“apps”</em> so you
-have to give it an app name - use the same as the credentials name
-above.<br></p></li>
-<li><p>user support email is your email</p></li>
-<li><p>app logo - you can skip all of that</p></li>
-<li><p>App domain: if you are working in a lab or interdisciplinary
-project, use that domain, or the domain of some department in your
-institution that you are a member of or is helpful for this kind of
-thing, like “biology.myuni.edu” or
-“x-project.biology.myuni.edu”</p></li>
-<li>
-<p>“Authorized domains” - if you are using internal app, then put
-the lowest domain which is typically the domain on your institutional
-email address (e.g. “myuni.edu” or “myuni.ac.uk” or
-“my-non-profit.org”)</p>
-<ul>
-<li>since this is just for internal collaborators, use the same url for
-all of home page, privacy policy link and terms of service link.<br>
-</li>
-</ul>
-</li>
-<li><p>If using external users, you may have to add a domain for each
-user that is their instution, or perhaps use gmail for everyone. (not
-tested)</p></li>
-</ul>
-</li>
-<li>
-<p>enable APIs</p>
-<ul>
-<li><p>to use the google sheets package, enable the sheets api. it may
-be necessary to enable the google drive API (which I did)</p></li>
-<li>
-<p>set for read-only</p>
-<ul>
-<li>there is a ‘scope’ setting and may want to change to ti ‘read only’
-since this package only reads google drive files. when setting up the
-apis, use this scope if possible.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>download credentials</p></li>
-</ul>
-<p>In the OAuth 2.0 Client IDs, download the JSON file needs to be
-accessible by your R session. It should not be inside your R code folder
-which is a git repository and this identity file should never be checked
-into git (for security). It does not go into the package itself, and
-must be given to each person using the package. To make it flexible,
-update the <code>.Renviron</code> file to point to that file. It may
-need to be the full path to the file. For example
-`PROJECT_AUTH_FILE=‘/Users/myuserid/downloads/client_secret_77etc_blahblah.apps.googleusercontent.com.json’</p>
-<p>commands to try:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>drive_auth_json_file <span class="ot">&lt;-</span> <span class="st">'path/to/json/file.json'</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># may want to check that file exists </span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>googlesheets4<span class="sc">::</span>googlesheets4<span class="sc">::</span><span class="fu">gs4_auth_configure</span>(<span class="at">path=</span>drive_auth_json_file)</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>googlesheets4<span class="sc">::</span><span class="fu">gs4_auth</span>(<span class="at">email=</span><span class="st">'myname@institution.whatever'</span>, <span class="at">scopes=</span><span class="st">"drive.readonly"</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ibeem-msu.github.io/collaboratoR" class="external-link">CollaboratoR</a></span><span class="op">)</span></span></code></pre></div>
+<p>A goal of this package is to enable the use of Cloud-based
+spreadsheet editing, such as Google Sheets, for collaborative data entry
+without requiring customized, complex data entry applications The
+package could also have used MS Office on-line excel editing and that’s
+a future feature. The package is curently geared for Google Sheets.</p>
+<p>In previous versions of this package, one had to create Google Cloud
+projects to enable accessing Google Sheets via APIs and this vignette
+had detailed instructions for setting this up. Howeve, this package now
+uses the excellent <a href="https://googlesheets4.tidyverse.org/" class="external-link">Googlesheets4</a> package
+from the Posit company, which comes with a built-in default OAuth app.
+No extra cloud setup or credentials files are needed.</p>
+<p>However, the following set-up for google drive is recommended.</p>
+<p><strong>Create a “shared drive”</strong>: if you create a shared
+folder inside your institutional Google Drive/Workspace, and then share
+that with your collaborators, there can be problems if you leave your
+institution. If your institutional account is revoked (you leave or
+retire) then your google drive and all the items within may disappear.
+However, “Shared drives” persist. Create a new ‘shared drive’ for your
+collaborative data entry project, which may require working with your
+institutions Google Workspace administrator (e.g. IT Department).</p>
+<p>**Give Collaborators permissions as “content edits”</p>
+<p><strong>Global Access Not necessary</strong> If you want to widely
+collaborate or share your data, you may allow “anyone with the link” to
+read the files in your folder (we’ve done this for our example project),
+but this is not necessary to enable collaborators to read your
+sheets.</p>
+<p><strong>First access requires web browser</strong> When you or your
+collaborators first access your google sheets with this package, it will
+require a web browser to log-in with your google credentials. R will
+attempt to automatically launch a web browser. For most of us, that will
+work well. For those using Linux or command-line access (e.g. on a
+shared research computer) this may be a problem and you’ll have to
+launch a separate browser process yourself.</p>
   </main>
 </div>
 
