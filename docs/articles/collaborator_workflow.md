@@ -44,8 +44,15 @@ data using git.
   [Google Sheets
   API](https://github.com/IBEEM-MSU/CollaboratoR/articles/google_sheets_api.md)
   setup.\
+- To use git features for sharing, the package can work with github
+  (others such as gitlab may be added later) which requires a github
+  account.
 - This package relies on [configuration values in the `.Renviron`
   file](https://github.com/IBEEM-MSU/CollaboratoR/articles/project_configuration.md)
+  for connecting automatically to a github repository.
+- See also the [CollaboratoR
+  Example](https://github.com/IBEEM-MSU/CollaboratoR/articles/collaborator_example.md)
+  for ideas on organizing your git repository for this workflow.
 
 ### Workflow Summary
 
@@ -54,7 +61,7 @@ data using git.
 2.  Setup Git repositories to hold data as it flows through
 3.  Create metadata and configuration
 
-- column definintions for main data sheet (CSV or Googlesheets)
+- column definitions for main data sheet (CSV or Google sheets)
 - create validation rules (YAML format)
 - data lists such as species lists in CSV or
 - list/table for tracking data entry sheets
@@ -62,8 +69,8 @@ data using git.
 
 4.  Enter data into tabular form
 
-- CSV or GoogleSheets
-- add entry to list of URIs (Google sheet urls or CSV file paths)
+- CSV or Google Sheets
+- add entry to list of URIs (Google sheet URLs or CSV file paths)
 
 5.  Use CollaboratoR package to accumulate metadata
 
@@ -79,13 +86,10 @@ data using git.
 - data values against rules (from YAML file)
 - report errors printed for user
 
-7.  save to git
+7.  update local repository with `git` and upload changes to shared
+    repository
 
-- those sheets that passed validation are commited to git
-
-8.  combine to master list(s)
-
-- a master database
+8.  aggregate
 
 ## Workflow
 
@@ -114,7 +118,7 @@ the protocol. This table must have columns as follows:
 - list/table for tracking data entry sheets
 - CollaboratoR configuration in .Renviron
 
-## Enter data into tabular form
+## Enter data into tabular form:
 
 - CSV or GoogleSheets
 - add entry to list of URIs (Google sheet urls or CSV file paths)
@@ -125,13 +129,81 @@ the protocol. This table must have columns as follows:
 - reads in list of data sheets CSV filename or list of googlesheets URLs
 - validation rules written in YAML and stored a RData file
 
-## Initiate automated validation and report
+## 6. Automated validation and report
 
-- read data files (from list of URIs in CSV or Google Sheets)
-- data format against schema (from column spec)
-- category columns are checked against lists (i.e. species lists)
-- data values against rules (from YAML file)
-- report errors printed for user \## save to git
-- those sheets that passed validation are commited to git
+### Classes of validation:
 
-## combine to master list(s)
+1.  structural, based on the “data dictionary” or field specifications
+    created above. The package ensure the data sheets have the same
+    column names and data types per column.
+
+2.  Constraints or Rules created using Validates format
+
+### Order of automated validation:
+
+1.  check the data format against the column specification
+2.  category columns are checked against lists (i.e. species lists)
+3.  data values validated against constraints using
+    [`validate::confront()`](https://rdrr.io/pkg/validate/man/confront.html),
+    accumulating validation messages
+
+### Reporting
+
+A report of all errors is provided to the user. If there validation
+errors at any point, the next step is not automatically initiated.
+However the user can run inititate the git commit anyway for those
+sheets that have passed.
+
+## 7. Update data repository with `git`
+
+This workflow uses git, which tracks changes when files are changed.\
+Changed CSVs are ‘check-in’ or ‘committed’ to the repository with git.\
+A git ‘commit’ is a set of changes across included files, a message, and
+a unique id number. Team members can review the commit messages and
+changes to see what changed between updates. It’s not necessary to put a
+list of files changed in the message since that can be examined.
+
+There are two ways to update the validated data set.
+
+### auto save valid data
+
+If all validation checks pass, the default action is to ‘check in’ (
+also known as “commit”) all csvs in the set to the git repository. This
+updates the local repository on the computer in which it’s run.
+
+### user initiated save of validated sheets
+
+When there are validation errors, the user much initiate a check-in
+using a simple function . Those sheets that passed validation are
+“committed” with a message
+
+### manual commits.
+
+Because this system is a collection of “helpers,” a user who knows how
+to use git may commit one or more files at any time simple using `git`
+commands or using the features of Rstudio/Positron to selectively commit
+sheets. One should always add a message indicating why the commit was
+made
+
+It’s very important that no invalid data sheets be added to L0 as CSV
+Files and checked into git manually.
+
+If so then data aggregation or common analysis will fail
+
+### Upload or “push” using `git`
+
+To share data, the workflow is to “push” to remotes. This can be done
+automatically via the pipeline or manually using git commands. In either
+case the connection to the git repository must be configured correctly.
+Detailed instructions for using `git` are beyond the scope of these
+instructions.
+
+For automatic pushing, some configuration is requires
+
+## 8. Aggregation
+
+Data rows should be assigned a category, and/or a unique ID value that
+allows them to be aggregated and still be identified.
+
+The aggregate function peforms simple data frame combination, but then
+if a “primary_e

@@ -154,7 +154,14 @@ For example:
 The vignette [Google Sheets API setup using Google
 Cloud](https://github.com/IBEEM-MSU/CollaboratoR/articles/google_sheets_api.md)
 describes in detail how to set this. To work this example will need to
-create a Google cloud API to access these data sheets from
+create a Google cloud API to access these data sheets and update the
+[project
+configuration](https://github.com/IBEEM-MSU/CollaboratoR/articles/project_configuration.md)
+
+## About Validation and Setup
+
+As described in the workflow vignette, this package does two levels of
+validation: structural and constraints.
 
 ## Initiate automated validation and report
 

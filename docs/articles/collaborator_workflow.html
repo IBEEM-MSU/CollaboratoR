@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">CollaboratoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,9 +121,15 @@ package</a> for data content validation</li>
 </li>
 <li>Information on how to set-up google workspace in the vignette for <a href="google_sheets_api.html">Google Sheets API</a> setup.<br>
 </li>
+<li>To use git features for sharing, the package can work with github
+(others such as gitlab may be added later) which requires a github
+account.</li>
 <li>This package relies on <a href="project_configuration.html">configuration values in the
-<code>.Renviron</code> file</a>
-</li>
+<code>.Renviron</code> file</a> for connecting automatically to a github
+repository.</li>
+<li>See also the <a href="collaborator_example.html">CollaboratoR
+Example</a> for ideas on organizing your git repository for this
+workflow.</li>
 </ul>
 </div>
 <div class="section level3">
@@ -136,7 +142,7 @@ for organization)</li>
 <li>Create metadata and configuration</li>
 </ol>
 <ul>
-<li>column definintions for main data sheet (CSV or Googlesheets)</li>
+<li>column definitions for main data sheet (CSV or Google sheets)</li>
 <li>create validation rules (YAML format)</li>
 <li>data lists such as species lists in CSV or</li>
 <li>list/table for tracking data entry sheets</li>
@@ -146,8 +152,8 @@ for organization)</li>
 <li>Enter data into tabular form</li>
 </ol>
 <ul>
-<li>CSV or GoogleSheets</li>
-<li>add entry to list of URIs (Google sheet urls or CSV file paths)</li>
+<li>CSV or Google Sheets</li>
+<li>add entry to list of URIs (Google sheet URLs or CSV file paths)</li>
 </ul>
 <ol start="5" style="list-style-type: decimal">
 <li>Use CollaboratoR package to accumulate metadata</li>
@@ -169,17 +175,10 @@ URLs</li>
 <li>report errors printed for user</li>
 </ul>
 <ol start="7" style="list-style-type: decimal">
-<li>save to git</li>
+<li><p>update local repository with <code>git</code> and upload changes
+to shared repository</p></li>
+<li><p>aggregate</p></li>
 </ol>
-<ul>
-<li>those sheets that passed validation are commited to git</li>
-</ul>
-<ol start="8" style="list-style-type: decimal">
-<li>combine to master list(s)</li>
-</ol>
-<ul>
-<li>a master database</li>
-</ul>
 </div>
 </div>
 <div class="section level2">
@@ -236,7 +235,7 @@ on the protocol. This table must have columns as follows:</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="enter-data-into-tabular-form">Enter data into tabular form<a class="anchor" aria-label="anchor" href="#enter-data-into-tabular-form"></a>
+<h2 id="enter-data-into-tabular-form">Enter data into tabular form:<a class="anchor" aria-label="anchor" href="#enter-data-into-tabular-form"></a>
 </h2>
 <ul>
 <li>CSV or GoogleSheets</li>
@@ -254,20 +253,95 @@ URLs</li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="initiate-automated-validation-and-report">Initiate automated validation and report<a class="anchor" aria-label="anchor" href="#initiate-automated-validation-and-report"></a>
+<h2 id="automated-validation-and-report">6. Automated validation and report<a class="anchor" aria-label="anchor" href="#automated-validation-and-report"></a>
 </h2>
-<ul>
-<li>read data files (from list of URIs in CSV or Google Sheets)</li>
-<li>data format against schema (from column spec)</li>
+<div class="section level3">
+<h3 id="classes-of-validation">Classes of validation:<a class="anchor" aria-label="anchor" href="#classes-of-validation"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li><p>structural, based on the “data dictionary” or field
+specifications created above. The package ensure the data sheets have
+the same column names and data types per column.</p></li>
+<li><p>Constraints or Rules created using Validates format</p></li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="order-of-automated-validation">Order of automated validation:<a class="anchor" aria-label="anchor" href="#order-of-automated-validation"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>check the data format against the column specification</li>
 <li>category columns are checked against lists (i.e. species lists)</li>
-<li>data values against rules (from YAML file)</li>
-<li>report errors printed for user ## save to git</li>
-<li>those sheets that passed validation are commited to git</li>
-</ul>
+<li>data values validated against constraints using
+<code><a href="https://rdrr.io/pkg/validate/man/confront.html" class="external-link">validate::confront()</a></code>, accumulating validation messages</li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="reporting">Reporting<a class="anchor" aria-label="anchor" href="#reporting"></a>
+</h3>
+<p>A report of all errors is provided to the user. If there validation
+errors at any point, the next step is not automatically initiated.
+However the user can run inititate the git commit anyway for those
+sheets that have passed.</p>
+<!-- how would the system track that? -->
+</div>
 </div>
 <div class="section level2">
-<h2 id="combine-to-master-lists">combine to master list(s)<a class="anchor" aria-label="anchor" href="#combine-to-master-lists"></a>
+<h2 id="update-data-repository-with-git">7. Update data repository with <code>git</code><a class="anchor" aria-label="anchor" href="#update-data-repository-with-git"></a>
 </h2>
+<p>This workflow uses git, which tracks changes when files are
+changed.<br>
+Changed CSVs are ‘check-in’ or ‘committed’ to the repository with
+git.<br>
+A git ‘commit’ is a set of changes across included files, a message, and
+a unique id number. Team members can review the commit messages and
+changes to see what changed between updates. It’s not necessary to put a
+list of files changed in the message since that can be examined.</p>
+<p>There are two ways to update the validated data set.</p>
+<div class="section level3">
+<h3 id="auto-save-valid-data">auto save valid data<a class="anchor" aria-label="anchor" href="#auto-save-valid-data"></a>
+</h3>
+<p>If all validation checks pass, the default action is to ‘check in’ (
+also known as “commit”) all csvs in the set to the git repository. This
+updates the local repository on the computer in which it’s run.</p>
+</div>
+<div class="section level3">
+<h3 id="user-initiated-save-of-validated-sheets">user initiated save of validated sheets<a class="anchor" aria-label="anchor" href="#user-initiated-save-of-validated-sheets"></a>
+</h3>
+<p>When there are validation errors, the user much initiate a check-in
+using a simple function . Those sheets that passed validation are
+“committed” with a message</p>
+</div>
+<div class="section level3">
+<h3 id="manual-commits-">manual commits.<a class="anchor" aria-label="anchor" href="#manual-commits-"></a>
+</h3>
+<p>Because this system is a collection of “helpers,” a user who knows
+how to use git may commit one or more files at any time simple using
+<code>git</code> commands or using the features of Rstudio/Positron to
+selectively commit sheets. One should always add a message indicating
+why the commit was made</p>
+<p>It’s very important that no invalid data sheets be added to L0 as CSV
+Files and checked into git manually.</p>
+<p>If so then data aggregation or common analysis will fail</p>
+</div>
+<div class="section level3">
+<h3 id="upload-or-push-using-git">Upload or “push” using <code>git</code><a class="anchor" aria-label="anchor" href="#upload-or-push-using-git"></a>
+</h3>
+<p>To share data, the workflow is to “push” to remotes. This can be done
+automatically via the pipeline or manually using git commands. In either
+case the connection to the git repository must be configured correctly.
+Detailed instructions for using <code>git</code> are beyond the scope of
+these instructions.</p>
+<p>For automatic pushing, some configuration is requires
+<!-- to do list functions and / or git commands --></p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="aggregation">8. Aggregation<a class="anchor" aria-label="anchor" href="#aggregation"></a>
+</h2>
+<p>Data rows should be assigned a category, and/or a unique ID value
+that allows them to be aggregated and still be identified.</p>
+<p>The aggregate function peforms simple data frame combination, but
+then if a “primary_e</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
