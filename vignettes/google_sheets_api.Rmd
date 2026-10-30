@@ -17,10 +17,19 @@ However, the following set-up for google drive is recommended.
 
 **Create a "shared drive"**:  if you create a shared folder inside your institutional Google Drive/Workspace, and then share that with your collaborators, there can be problems if you leave your institution.  If your institutional account is revoked (you leave or retire) then your google drive and all the items within may disappear.  However, "Shared drives" persist.  Create a new 'shared drive' for your collaborative data entry project, which may require working with your institutions Google Workspace administrator (e.g. IT Department). 
 
-**Give Collaborators permissions as "content edits"
+**Give Collaborators permissions as "editors"**
 
-**Global Access Not necessary**  If you want to widely collaborate or share your data, you may allow "anyone with the link" to read the files in your folder (we've done this for our example project), but this is not necessary to enable collaborators to read your sheets.  
+You may be ale to simply alter the sharing permissions ('who has access' section) for the entire shared
+ drive, which requires fewer steps. However, some institutions restrict sharing with external
+email address in which case you will need to contact your Google Workspace admin.  If you are the
+originator of the share drive, you may be tasked with creating empty datasheets (by copying the template), naming them and sharing with your external colleagues.  
 
-**First access requires web browser**  When you or your collaborators first access your google sheets
+**Global Access Not necessary**  
+
+If you want to widely collaborate or share your data, you may allow "anyone with the link" to read the files in your folder (we've done this for our example project), but this is not necessary to enable collaborators to read your sheets.  
+
+**First access requires web browser**  
+
+When you or your collaborators first access your google sheets
 with this package, it will require a web browser to log-in with your google credentials.  R will attempt to automatically launch a web browser.  For most of us, that will work well. For those using Linux or command-line access (e.g. on a shared research computer) this may be a problem and you'll have to launch a separate browser process yourself. 
 
