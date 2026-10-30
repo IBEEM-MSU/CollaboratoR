@@ -37,7 +37,8 @@ Imports:
     googlesheets4,
     readr,
     validate,
-    dplyr
+    dplyr,
+    httpuv
 VignetteBuilder: knitr
 Depends: 
     R (>= 4.2.0)
