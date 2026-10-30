@@ -11,3 +11,5 @@ notes.txt
 ^tests$
 ^inst/credentials/*$
 ^.nojekyll
+^doc$
+^Meta$

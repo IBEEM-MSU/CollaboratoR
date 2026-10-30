@@ -163,7 +163,17 @@ For example: `renv::install() `
 
 The vignette [Google Sheets API setup using Google Cloud](google_sheets_api.html)
 describes in detail how to set this. To work this example will need to create a 
-Google cloud API to access these data sheets from 
+Google cloud API to access these data sheets and update the 
+[project configuration](project_configuration.html)
+
+
+<!-- set up google aip -->
+
+## About Validation and Setup
+
+As described in the workflow vignette, this package does two levels of 
+validation: structural and constraints. 
+
 
 
 ## Initiate automated validation and report 
